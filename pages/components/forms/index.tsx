@@ -1,37 +1,33 @@
-import Head from 'next/head';
-import SidebarLayout from '@/layouts/SidebarLayout';
-import PageTitle from '@/components/PageTitle';
-import { useState } from 'react';
-
-import PageTitleWrapper from '@/components/PageTitleWrapper';
 import {
-  Container,
-  Grid,
   Card,
-  CardHeader,
   CardContent,
-  Divider
+  CardHeader,
+  Container,
+  Divider,
+  Grid
 } from '@mui/material';
-import Footer from '@/components/Footer';
 
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import { pink } from '@mui/material/colors';
 import Checkbox from '@mui/material/Checkbox';
-
+import Footer from '@/components/Footer';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Head from 'next/head';
+import MenuItem from '@mui/material/MenuItem';
+import PageTitle from '@/components/PageTitle';
+import PageTitleWrapper from '@/components/PageTitleWrapper';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-
-import Stack from '@mui/material/Stack';
+import SidebarLayout from '@/layouts/SidebarLayout';
 import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import Switch from '@mui/material/Switch';
+import TextField from '@mui/material/TextField';
 import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
-
-import Switch from '@mui/material/Switch';
+import { pink } from '@mui/material/colors';
+import { useState } from 'react';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
