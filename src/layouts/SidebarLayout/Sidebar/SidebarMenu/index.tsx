@@ -257,6 +257,21 @@ function SidebarMenu() {
                 </NextLink>
               </ListItem>
               <ListItem component="div">
+                <NextLink href="/management-sensor" passHref>
+                  <Button
+                    className={
+                      currentRoute === '/management-sensor' ? 'active' : ''
+                    }
+                    disableRipple
+                    component="a"
+                    onClick={closeSidebar}
+                    startIcon={<BrightnessLowTwoToneIcon />}
+                  >
+                    Gestion Sensores
+                  </Button>
+                </NextLink>
+              </ListItem>
+              <ListItem component="div">
                 <NextLink href="/dashboards/crypto" passHref>
                   <Button
                     className={

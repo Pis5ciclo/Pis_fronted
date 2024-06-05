@@ -1,8 +1,12 @@
 import * as React from 'react';
+import * as yup from 'yup';
+
+import { useEffect, useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Cookies from 'js-cookie'
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
@@ -13,29 +17,94 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useState } from 'react';
+import api from '@/utils/api/api';
+import { renderMessage } from '@/utils/api/utilities/formErrors';
+import { useRouter } from 'next/router';
 
 // import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
 // const defaultTheme = createTheme();
+interface Errors {
+    password?: string;
+}
+const schema = yup.object().shape({
+    password: yup
+        .string()
+        .test('uppercase', 'La contraseña debe contener al menos una letra mayúscula', (value) => {
+            if (!value) return true;
+            return /[A-Z]/.test(value);
+        })
+        .test('lowercase', 'La contraseña debe contener al menos una letra minúscula', (value) => {
+            if (!value) return true;
+            return /[a-z]/.test(value);
+        })
+        .test('number', 'La contraseña debe contener al menos un número', (value) => {
+            if (!value) return true;
+            return /\d/.test(value);
+        })
+        .test('special character', 'La contraseña debe contener al menos un carácter especial', (value) => {
+            if (!value) return true;
+            return /[~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/]/.test(value);
+        })
+        .test('min length', 'La contraseña debe tener al menos 8 caracteres', (value) => {
+            if (!value) return true;
+            return value.length >= 8;
+        }), 
+});
 
-export default function SignInSide() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+export default function Login() {
+    const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+    const [errors, setErrors] = useState<Errors>({});
+    const [isPasswordValid, setIsPasswordValid] = useState(false);
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    });
+    useEffect(() =>{
+        const token = Cookies.get('token');
+        if(token){
+            router.push('/')
+        }
+    })
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-        email: data.get('email'),
-        password: data.get('password'),
+        api.login(formData).then((token) => {
+            Cookies.set('token_person', token.data.token)
+            Cookies.set('user', token.data.user)
+            router.push('/');
         });
     };
-    const [showPassword, setShowPassword] = useState(false);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+        if (name === 'password') {
+            if (!value) {
+                setIsPasswordValid(false);
+                return; 
+            }
+            schema.validate({ [name]: value })
+                .then(() => {
+                    setErrors({ ...errors, [name]: '' });
+                    setIsPasswordValid(true);
+                })
+                .catch((error) => {
+                    setErrors({ ...errors, [name]: error.errors[0] });
+                    setIsPasswordValid(false);
+                });
+        }
+    };
 
     const handleTogglePasswordVisibility = () => {
         setShowPassword(!showPassword);
-    };
-
+    };  
+    
     return (
         // <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -70,61 +139,75 @@ export default function SignInSide() {
                         <Typography component="h1" variant="h3" fontFamily="Helvetica">
                             INICIO DE SESION
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Corre electronico"
-                                name="email"
-                                autoComplete="email"
-                                autoFocus
-                                type='search'
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="password"
-                                label="Contrasena"
-                                name="password"
-                                autoComplete="current-password"
-                                type={showPassword ? 'text' : 'password'}
-                                InputProps={{
-                                    endAdornment: (
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleTogglePasswordVisibility}
-                                        edge="end"
-                                        >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                    ),
-                                }}
-                            />
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            >
-                                Sign In
-                            </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
+                        <Box sx={{ mt: 1 }}>
+                            <form onSubmit={handleSubmit}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Corre electronico"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                    type='search'
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                /> 
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="password"
+                                    label="Contrasena"
+                                    name="password"
+                                    autoComplete="current-password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    InputProps={{
+                                        endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleTogglePasswordVisibility}
+                                            edge="end"
+                                            >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                                <div className="">
+                                    {renderMessage({
+                                        errors,
+                                        fieldName: 'password',
+                                    })}
+                                </div>
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    disabled={!isPasswordValid}
+                                    style={{ opacity: isPasswordValid ? 1 : 0.7, backgroundColor: '#007bff' }}  
+                                >
+                                    Sign In
+                                </Button>
+                                <Grid container>
+                                    <Grid item xs>
+                                        <Link href="#" variant="body2">
+                                            Forgot password?
+                                        </Link>
+                                        </Grid>
+                                        <Grid item>
+                                        <Link href="#" variant="body2">
+                                            {"Don't have an account? Sign Up"}
+                                        </Link>
                                     </Grid>
-                                    <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
                                 </Grid>
-                            </Grid>
+                            </form>
                         </Box>
                     </Box>
                 </Grid>
