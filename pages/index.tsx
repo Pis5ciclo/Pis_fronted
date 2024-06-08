@@ -1,43 +1,42 @@
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, styled } from '@mui/material';
 
-import AccountBalance from '@/content/Dashboards/Crypto/AccountBalance';
-import AccountSecurity from '@/content/Dashboards/Crypto/AccountSecurity';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
-import PageHeader from '@/content/Dashboards/Crypto/PageHeader';
-import PageTitleWrapper from '@/components/PageTitleWrapper';
-import SidebarLayout from '@/layouts/SidebarLayout';
-import Wallets from '@/content/Dashboards/Crypto/Wallets';
-import WatchList from '@/content/Dashboards/Crypto/WatchList';
+import PrincipalLayout from '@/layouts/PrincipalLayout';
+import SimulationPrognostic from '@/content/Dashboards/Crypto/SimulationPrognostic';
 
+const CardSimulation = styled(Container)(
+  ({ theme }) => `
+  height: ${theme.header.height};
+  position:center;
+  justify-content: space-between;
+  right: 0;
+  z-index: 6;
+  width: 100%;
+  padding: ${theme.spacing(0.5)};
+  @media (min-width: ${theme.breakpoints.values.lg}px) {
+    left: ${theme.sidebar.width};
+    width: auto;
+}
+`
+);
 function DashboardCrypto() {
   return (
     <>
       <Head>
-        <title>Crypto Dashboard</title>
+        <title>Monitoreo de agua y aire</title>
       </Head>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" >
         <Grid
           container
           direction="row"
           justifyContent="center"
-          alignItems="stretch"
+          alignItems="center"
           spacing={4}
+          style={{ marginRight: '300vh' }} 
         >
           <Grid item xs={12}>
-            <AccountBalance />
-          </Grid>
-          <Grid item lg={8} xs={12}>
-            <Wallets />
-          </Grid>
-          <Grid item lg={4} xs={12}>
-            <AccountSecurity />
-          </Grid>
-          <Grid item xs={12}>
-            <WatchList />
+            <SimulationPrognostic />
           </Grid>
         </Grid>
       </Container>
@@ -46,6 +45,6 @@ function DashboardCrypto() {
   );
 }
 
-DashboardCrypto.getLayout = (page) => <SidebarLayout>{page}</SidebarLayout>;
+DashboardCrypto.getLayout = (page) => <PrincipalLayout>{page}</PrincipalLayout>;
 
 export default DashboardCrypto;

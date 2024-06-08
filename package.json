@@ -57,10 +57,5 @@
     "eslint-plugin-prettier": "4.0.0",
     "next-transpile-modules": "9.0.0",
     "prettier": "2.6.2"
-  },
-  "eslintConfig": {
-    "extends":[
-      "./node_modules/standard/eslintrc.json"
-    ]
   }
 }
