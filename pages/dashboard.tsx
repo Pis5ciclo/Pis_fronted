@@ -5,20 +5,23 @@ import AccountSecurity from '@/content/Dashboards/Crypto/AccountSecurity';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
 import PageHeader from '@/content/Dashboards/Crypto/PageHeader';
+import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import SidebarLayout from '@/layouts/SidebarLayout';
 import Wallets from '@/content/Dashboards/Crypto/Wallets';
 import WatchList from '@/content/Dashboards/Crypto/WatchList';
-
+import { UserProvider } from '@/content/Dashboards/Crypto/UserContext';
 function DashboardCrypto() {
   return (
     <>
       <Head>
         <title>Crypto Dashboard</title>
       </Head>
-      <PageTitleWrapper>
-        <PageHeader />
-      </PageTitleWrapper>
+      <UserProvider>
+        <PageTitleWrapper>
+          <PageWelcomeUser />
+        </PageTitleWrapper>
+      </UserProvider>
       <Container maxWidth="lg">
         <Grid
           container
