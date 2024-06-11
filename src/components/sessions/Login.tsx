@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -20,7 +20,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import api from '@/utils/api/api';
 import { renderMessage } from '@/utils/api/utilities/formErrors';
 import { useRouter } from 'next/router';
-import { UserContext } from '@/content/Dashboards/Crypto/UserContext';
+
 // import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // TODO remove, this demo shouldn't need to reset the theme.
@@ -83,10 +83,12 @@ export default function Login() {
     email: '',
     password: ''
   });
-  const { setUser } = useContext(UserContext);
+
   useEffect(() => {
     const token = Cookies.get('token_person');
     const role = Cookies.get('role');
+    const storedUser = Cookies.get('user');
+    console.log("Contenido de la cookie 'user':", storedUser);
     if (token && role) {
       if (role === '1') {
         router.push('/dashboard');
@@ -105,15 +107,19 @@ export default function Login() {
       Cookies.set('user', user);
       Cookies.set('role', role);
 
-      setUser(user);
-
       if (role === 1) {
-        router.push('/dashboard');
+        router.push(`/dashboard?name=${user}`)
       } else {
         router.push('/');
       }
     } catch (error) {
-      setLoginError('Credenciales incorrectas. Por favor, intente nuevamente.');
+      if (error.response) {
+        setLoginError('Credenciales incorrectas. Por favor, intente nuevamente.');
+      } else if (error.request) {
+        router.push('/status/500');
+      } else {
+        setLoginError('Ocurrió un error inesperado. Por favor, intente nuevamente.');
+      }
     }
   };
 

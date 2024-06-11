@@ -1,19 +1,17 @@
 import {
   Box,
+  Button,
   Card,
-  Typography,
   Container,
   Divider,
-  Button,
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
+  Typography,
   styled
 } from '@mui/material';
-import Head from 'next/head';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
-import type { ReactElement } from 'react';
+
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import BaseLayout from 'src/layouts/BaseLayout';
+import Head from 'next/head';
+import type { ReactElement } from 'react';
 
 const MainContent = styled(Box)(
   () => `
@@ -21,6 +19,9 @@ const MainContent = styled(Box)(
     display: flex;
     flex: 1;
     flex-direction: column;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
 `
 );
 
@@ -35,18 +36,6 @@ const TopWrapper = styled(Box)(
 `
 );
 
-const OutlinedInputWrapper = styled(OutlinedInput)(
-  ({ theme }) => `
-    background-color: ${theme.colors.alpha.white[100]};
-`
-);
-
-const ButtonSearch = styled(Button)(
-  ({ theme }) => `
-    margin-right: -${theme.spacing(1)};
-`
-);
-
 function Status404() {
   return (
     <>
@@ -55,48 +44,29 @@ function Status404() {
       </Head>
       <MainContent>
         <TopWrapper>
-          <Container maxWidth="md">
-            <Box textAlign="center">
-              <img alt="404" height={180} src="/static/images/status/404.svg" />
-              <Typography variant="h2" sx={{ my: 2 }}>
-                The page you were looking for doesn't exist.
-              </Typography>
-              <Typography
-                variant="h4"
-                color="text.secondary"
-                fontWeight="normal"
-                sx={{ mb: 4 }}
-              >
-                It's on us, we moved the content to a different page. The search
-                below should help!
-              </Typography>
-            </Box>
-            <Container maxWidth="sm">
-              <Card sx={{ textAlign: 'center', mt: 3, p: 4 }}>
-                <FormControl variant="outlined" fullWidth>
-                  <OutlinedInputWrapper
-                    type="text"
-                    placeholder="Search terms here..."
-                    endAdornment={
-                      <InputAdornment position="end">
-                        <ButtonSearch variant="contained" size="small">
-                          Search
-                        </ButtonSearch>
-                      </InputAdornment>
-                    }
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <SearchTwoToneIcon />
-                      </InputAdornment>
-                    }
-                  />
-                </FormControl>
-                <Divider sx={{ my: 4 }}>OR</Divider>
+          <Container maxWidth="sm">
+            <Card sx={{ textAlign: 'center', mt: 3, p: 2 }}>
+              <Box textAlign="center">
+                <img alt="404" height={180} src="/static/images/status/404.svg" />
+                <Typography variant="h2" sx={{ my: 2 }}>
+                  La página que estabas buscando no existe.
+                </Typography>
+                <Typography
+                  variant="h4"
+                  color="text.secondary"
+                  fontWeight="normal"
+                  sx={{ mb: 4 }}
+                >
+                  La url no esta disponibles, por favor ingrese una correcta
+                </Typography>
+              </Box>
+              <Container maxWidth="sm">
+                <Divider sx={{ my: 4 }}><ArrowDownwardIcon /></Divider>
                 <Button href="/" variant="outlined">
-                  Go to homepage
+                  Ir a pagina principal
                 </Button>
-              </Card>
-            </Container>
+              </Container>
+            </Card>
           </Container>
         </TopWrapper>
       </MainContent>
