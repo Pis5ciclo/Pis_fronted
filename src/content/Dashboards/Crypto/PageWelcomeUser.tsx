@@ -1,11 +1,11 @@
 import { Avatar, Grid, Typography } from '@mui/material';
 
+import React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { UserContext } from './UserContext';
-import React, { useContext } from 'react';
 
-function PageWelcomeUser() {
-  const { user } = useContext(UserContext);
+function PageWelcomeUser({ userName }) {
+  console.log(userName);
+  
   // const user = {
   //   name: 'Catherine Pike',
   //   avatar: '/static/images/avatars/1.jpg'
@@ -22,13 +22,13 @@ function PageWelcomeUser() {
             height: theme.spacing(8)
           }}
           variant="rounded"
-          alt={user ? user.name : 'Invitado'}
+          // alt={user ? user.name : 'Invitado'}
           // src={user.avatar}
         />
       </Grid>
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Bienvenido, {user ? user.name : ''}!
+          Bienvenido, {userName}!
         </Typography>
         <Typography variant="subtitle2">
           Gracias por hacer uso de nuestro programa!

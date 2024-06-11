@@ -1,25 +1,17 @@
-import { useState } from 'react';
 import {
   Box,
-  Typography,
-  Hidden,
-  Container,
   Button,
-  Grid,
+  Card,
+  Container,
+  Divider,
+  Typography,
   styled
 } from '@mui/material';
-import type { ReactElement } from 'react';
+
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import BaseLayout from 'src/layouts/BaseLayout';
-
 import Head from 'next/head';
-import RefreshTwoToneIcon from '@mui/icons-material/RefreshTwoTone';
-import LoadingButton from '@mui/lab/LoadingButton';
-
-const GridWrapper = styled(Grid)(
-  ({ theme }) => `
-    background: ${theme.colors.gradients.blue5};
-`
-);
+import type { ReactElement } from 'react';
 
 const MainContent = styled(Box)(
   () => `
@@ -33,53 +25,35 @@ const MainContent = styled(Box)(
 `
 );
 
-const TypographyPrimary = styled(Typography)(
+const TopWrapper = styled(Box)(
   ({ theme }) => `
-      color: ${theme.colors.alpha.white[100]};
-`
-);
-
-const TypographySecondary = styled(Typography)(
-  ({ theme }) => `
-      color: ${theme.colors.alpha.white[70]};
+  display: flex;
+  width: 100%;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: ${theme.spacing(6)};
 `
 );
 
 function Status500() {
-  const [pending, setPending] = useState(false);
-  function handleClick() {
-    setPending(true);
-  }
-
   return (
     <>
       <Head>
         <title>Status - 500</title>
       </Head>
       <MainContent>
-        <Grid
-          container
-          sx={{ height: '100%' }}
-          alignItems="stretch"
-          spacing={0}
-        >
-          <Grid
-            xs={12}
-            md={6}
-            alignItems="center"
-            display="flex"
-            justifyContent="center"
-            item
-          >
-            <Container maxWidth="sm">
+        <TopWrapper>
+          <Container maxWidth="sm">
+            <Card sx={{ textAlign: 'center', mt: 3, p: 2 }}>
               <Box textAlign="center">
                 <img
                   alt="500"
-                  height={260}
+                  height={190}
                   src="/static/images/status/500.svg"
                 />
                 <Typography variant="h2" sx={{ my: 2 }}>
-                  There was an error, please try again later
+                  Hubo un error, por favor intenta nuevamente más tarde.
                 </Typography>
                 <Typography
                   variant="h4"
@@ -87,55 +61,16 @@ function Status500() {
                   fontWeight="normal"
                   sx={{ mb: 4 }}
                 >
-                  The server encountered an internal error and was not able to
-                  complete your request
+                  El servidor encontró un error interno y no pudo completar su solicitud
                 </Typography>
-                <LoadingButton
-                  onClick={handleClick}
-                  loading={pending}
-                  variant="outlined"
-                  color="primary"
-                  startIcon={<RefreshTwoToneIcon />}
-                >
-                  Refresh view
-                </LoadingButton>
-                <Button href="/" variant="contained" sx={{ ml: 1 }}>
-                  Go back
+                <Divider sx={{ my: 4 }}><ArrowDownwardIcon /></Divider>
+                <Button href="/" variant="outlined">
+                  Ir a pagina principal
                 </Button>
               </Box>
-            </Container>
-          </Grid>
-          <Hidden mdDown>
-            <GridWrapper
-              xs={12}
-              md={6}
-              alignItems="center"
-              display="flex"
-              justifyContent="center"
-              item
-            >
-              <Container maxWidth="sm">
-                <Box textAlign="center">
-                  <TypographyPrimary variant="h1" sx={{ my: 2 }}>
-                    Tokyo Free White Next.js Typescript Admin Dashboard
-                  </TypographyPrimary>
-                  <TypographySecondary
-                    variant="h4"
-                    fontWeight="normal"
-                    sx={{ mb: 4 }}
-                  >
-                    High performance React template built with lots of powerful
-                    Material-UI components across multiple product niches for
-                    fast & perfect apps development processes.
-                  </TypographySecondary>
-                  <Button href="/" size="large" variant="contained">
-                    Overview
-                  </Button>
-                </Box>
-              </Container>
-            </GridWrapper>
-          </Hidden>
-        </Grid>
+            </Card>
+          </Container>
+        </TopWrapper>
       </MainContent>
     </>
   );

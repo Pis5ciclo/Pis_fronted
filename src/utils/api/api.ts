@@ -29,8 +29,6 @@ const listSensor = async (token = "NONE") => {
         if (error.response && error.response.status === 401) {
             window.location.href = '/404'; 
         }
-        // Puedes lanzar la excepción nuevamente si deseas que la función que llama a listSensor la maneje
-        // throw error;
     }
 };
 const api ={
