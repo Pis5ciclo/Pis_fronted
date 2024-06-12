@@ -1,14 +1,18 @@
 import {
   Avatar,
   Box,
+  Button,
   Typography,
   alpha,
   lighten,
   styled,
   useTheme
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
+import Cookies from 'js-cookie';
 import HeaderUserbox from './Userbox';
+import { useRouter } from 'next/router';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -31,7 +35,21 @@ const HeaderWrapper = styled(Box)(
 
 function Header() {
   const theme = useTheme();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
+  const { query } = router;
+  const userName = query.name || '';
 
+  useEffect(() => {
+    const token = Cookies.get('token_person');
+    const role = Cookies.get('role');
+    if (token && role) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+  
   return (
     <HeaderWrapper
       display="flex"
@@ -40,26 +58,37 @@ function Header() {
         boxShadow:
           theme.palette.mode === 'dark'
             ? `0 1px 0 ${alpha(
-                lighten(theme.colors.primary.main, 0.7),
-                0.15
-              )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
+              lighten(theme.colors.primary.main, 0.7),
+              0.15
+            )}, 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)`
             : `0px 2px 8px -3px ${alpha(
-                theme.colors.alpha.black[100],
-                0.2
-              )}, 0px 5px 22px -4px ${alpha(
-                theme.colors.alpha.black[100],
-                0.1
-              )}`
+              theme.colors.alpha.black[100],
+              0.2
+            )}, 0px 5px 22px -4px ${alpha(
+              theme.colors.alpha.black[100],
+              0.1
+            )}`
       }}
     >
       <Avatar sx={{ width: 60, height: 60 }}>
         <img src="/image/logo-unl.png" alt="Tu imagen" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </Avatar>
-      <Box display="absolute"> 
-        <Typography style={{ color: 'black', fontWeight: 'bold', fontSize: '24px'}}>UNIVERSIDAD NACIONAL DE LOJA</Typography>
+      <Box display="absolute">
+        <Typography style={{ color: 'black', fontWeight: 'bold', fontSize: '24px' }}>UNIVERSIDAD NACIONAL DE LOJA</Typography>
       </Box>
       <Box display="flex" alignItems="center">
-        <HeaderUserbox />
+        {!isAuthenticated ? (
+          <>
+            <Button href="/login" variant="outlined">
+              Iniciar sesion
+            </Button>
+            <Button sx={{ margin: 1 }} color="secondary">
+              Registrarse
+            </Button>
+          </>
+        ) : (
+          <HeaderUserbox userName={userName}/>
+        )}
       </Box>
     </HeaderWrapper>
   );

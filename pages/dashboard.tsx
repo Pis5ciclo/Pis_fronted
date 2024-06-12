@@ -21,11 +21,9 @@ function DashboardCrypto() {
       <Head>
         <title>Crypto Dashboard</title>
       </Head>
-      {/* <UserProvider> */}
         <PageTitleWrapper>
           <PageWelcomeUser userName={userName} />
         </PageTitleWrapper>
-      {/* </UserProvider> */}
       <Container maxWidth="lg">
         <Grid
           container

@@ -2,6 +2,8 @@ import { Container, Grid, styled } from '@mui/material';
 
 import Footer from '@/components/Footer';
 import Head from 'next/head';
+import PageTitleWrapper from '@/components/PageTitleWrapper';
+import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
 import PrincipalLayout from '@/layouts/PrincipalLayout';
 import SimulationPrognostic from '@/content/Dashboards/Crypto/SimulationPrognostic';
 
@@ -26,6 +28,9 @@ function DashboardCrypto() {
       <Head>
         <title>Monitoreo de agua y aire</title>
       </Head>
+      <PageTitleWrapper>
+        {/* <PageWelcomeUser userName={userName} /> */}
+      </PageTitleWrapper>
       <Container maxWidth="lg" >
         <Grid
           container
@@ -33,7 +38,7 @@ function DashboardCrypto() {
           justifyContent="center"
           alignItems="center"
           spacing={4}
-          style={{ marginRight: '300vh' }} 
+          style={{ marginRight: '300vh' }}
         >
           <Grid item xs={12}>
             <SimulationPrognostic />
