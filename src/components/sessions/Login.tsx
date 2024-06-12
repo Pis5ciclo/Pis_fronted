@@ -110,7 +110,7 @@ export default function Login() {
       if (role === 1) {
         router.push(`/dashboard?name=${user}`)
       } else {
-        router.push('/');
+        router.push(`/?name=${user}`);
       }
     } catch (error) {
       if (error.response) {

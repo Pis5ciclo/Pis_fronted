@@ -14,9 +14,8 @@ import {
 import { useRef, useState } from 'react';
 
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
+import Cookies from "js-cookie";
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
-import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import NextLink from 'next/link';
 import { styled } from '@mui/material/styles';
@@ -56,11 +55,10 @@ const UserBoxDescription = styled(Typography)(
 `
 );
 
-function HeaderUserbox() {
+function HeaderUserbox({ userName }) {
   const user = {
-    name: 'Catherine Pike',
-    avatar: '/static/images/avatars/1.jpg',
-    jobtitle: 'Project Manager'
+    avatar: '/static/images/avatars/user.png',
+    jobtitle: 'Usuario'
   };
 
   const ref = useRef<any>(null);
@@ -73,14 +71,18 @@ function HeaderUserbox() {
   const handleClose = (): void => {
     setOpen(false);
   };
-
+  const handleCloseCookie = (e) => {
+    Cookies.remove("token_person");
+    Cookies.remove("user");
+    Cookies.remove("role");
+  }
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+        <Avatar variant="rounded" alt={userName} src={user.avatar} />
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{userName}</UserBoxLabel>
             <UserBoxDescription variant="body2">
               {user.jobtitle}
             </UserBoxDescription>
@@ -104,9 +106,9 @@ function HeaderUserbox() {
         }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-          <Avatar variant="rounded" alt={user.name} src={user.avatar} />
+          <Avatar variant="rounded" alt={userName} src={user.avatar} />
           <UserBoxText>
-            <UserBoxLabel variant="body1">{user.name}</UserBoxLabel>
+            <UserBoxLabel variant="body1">{userName}</UserBoxLabel>
             <UserBoxDescription variant="body2">
               {user.jobtitle}
             </UserBoxDescription>
@@ -120,24 +122,12 @@ function HeaderUserbox() {
               <ListItemText primary="My Profile" />
             </ListItem>
           </NextLink>
-          <NextLink href="/applications/messenger" passHref>
-            <ListItem button>
-              <InboxTwoToneIcon fontSize="small" />
-              <ListItemText primary="Messenger" />
-            </ListItem>
-          </NextLink>
-          <NextLink href="/management/profile/settings" passHref>
-            <ListItem button>
-              <AccountTreeTwoToneIcon fontSize="small" />
-              <ListItemText primary="Account Settings" />
-            </ListItem>
-          </NextLink>
         </List>
         <Divider />
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button href='/' color="primary" fullWidth onClick={(e) => handleCloseCookie(e)}>
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
-            Sign out
+            Cerrar Sesion
           </Button>
         </Box>
       </Popover>
