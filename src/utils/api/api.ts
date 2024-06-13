@@ -31,8 +31,20 @@ const listSensor = async (token = "NONE") => {
         }
     }
 };
+const listPerson = async (token = "NONE") => {
+    const headers = createHeaders(token);
+    try {
+        const response = await axios.get(`${apiUrl}/person/account`, { headers });
+        return Array.isArray(response.data.data) ? response.data.data : [];
+    } catch (error) {
+        if (error.response && error.response.status === 401) {
+            window.location.href = '/404'; 
+        }
+    }
+};
 const api ={
     login,
-    listSensor
+    listSensor,
+    listPerson
 }
 export default api

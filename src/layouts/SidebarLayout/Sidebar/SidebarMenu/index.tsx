@@ -212,10 +212,10 @@ function SidebarMenu() {
           <SubMenuWrapper>
             <List component="div">
             <ListItem component="div">
-                <NextLink href="/dashboards/crypto" passHref>
+                <NextLink href="/management-person" passHref>
                   <Button
                     className={
-                      currentRoute === '/dashboards/crypto' ? 'active' : ''
+                      currentRoute === '/management-person' ? 'active' : ''
                     }
                     disableRipple
                     component="a"
