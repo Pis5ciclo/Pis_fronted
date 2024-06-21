@@ -42,9 +42,38 @@ const listPerson = async (token = "NONE") => {
         }
     }
 };
+
+const roles = async (token = "NONE") => {
+    const headers = createHeaders(token);
+    const response = await axios.get(`${apiUrl}/roles`, { headers });
+    return response.data.data;
+}
+
+const saveUser = async (data, token = "NONE") => {
+    const headers = createHeaders(token);
+    const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+    return response.data;
+}
+
+const updateUser = async (data: any, external_id:string, token = "NONE") => {
+    const headers = createHeaders(token);
+    const response = await axios.post(`${apiUrl}/modify_person/${external_id}`, data, { headers });
+    return response.data;
+}
+
+const desactivateAccount = async (external_id:string, token = "NONE") => {
+    const headers = createHeaders(token);
+    const response = await axios.get(`${apiUrl}/deactivate_person/${external_id}`, { headers });
+    return response.data;
+}
+
 const api ={
     login,
     listSensor,
-    listPerson
+    listPerson,
+    roles,
+    saveUser,
+    updateUser,
+    desactivateAccount
 }
 export default api
