@@ -1,22 +1,23 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Divider,
+  Grid
+} from '@mui/material';
+import { deepOrange, deepPurple, green, pink } from '@mui/material/colors';
+
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import Avatar from '@mui/material/Avatar';
+import FolderIcon from '@mui/icons-material/Folder';
+import Footer from '@/components/Footer';
 import Head from 'next/head';
-import SidebarLayout from '@/layouts/SidebarLayout';
 import PageTitle from '@/components/PageTitle';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
-import {
-  Container,
-  Grid,
-  Card,
-  CardHeader,
-  CardContent,
-  Divider
-} from '@mui/material';
-import Footer from '@/components/Footer';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import { deepOrange, deepPurple, green, pink } from '@mui/material/colors';
-import FolderIcon from '@mui/icons-material/Folder';
 import PageviewIcon from '@mui/icons-material/Pageview';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import SidebarLayout from '@/layouts/SidebarLayout';
+import Stack from '@mui/material/Stack';
 
 function stringToColor(string: string) {
   let hash = 0;

@@ -1,23 +1,24 @@
 import {
+  Avatar,
+  Box,
   Button,
   Card,
-  Box,
   CardActions,
-  Typography,
-  Avatar,
-  alpha,
-  Stack,
   Divider,
+  Stack,
+  Typography,
+  alpha,
   styled,
   useTheme
 } from '@mui/material';
-import Text from 'src/components/Text';
-import Label from 'src/components/Label';
-import { Chart } from 'src/components/Chart';
+
+// import { Chart } from 'src/components/Chart';
 import type { ApexOptions } from 'apexcharts';
+import Label from 'src/components/Label';
+import Text from 'src/components/Text';
 import TrendingDownTwoToneIcon from '@mui/icons-material/TrendingDownTwoTone';
-import TrendingUpTwoToneIcon from '@mui/icons-material/TrendingUpTwoTone';
 import TrendingFlatTwoToneIcon from '@mui/icons-material/TrendingFlatTwoTone';
+import TrendingUpTwoToneIcon from '@mui/icons-material/TrendingUpTwoTone';
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -206,12 +207,12 @@ function WatchListRow() {
             />
           </Box>
           <Box pt={2}>
-            <Chart
+            {/* <Chart
               options={Box1Options}
               series={Box1Data}
               type="line"
               height={100}
-            />
+            /> */}
           </Box>
         </Box>
         <Box
@@ -275,12 +276,12 @@ function WatchListRow() {
             />
           </Box>
           <Box pt={2}>
-            <Chart
+            {/* <Chart
               options={Box1Options}
               series={Box2Data}
               type="line"
               height={100}
-            />
+            /> */}
           </Box>
         </Box>
         <Box
@@ -344,12 +345,12 @@ function WatchListRow() {
             />
           </Box>
           <Box pt={2}>
-            <Chart
+            {/* <Chart
               options={Box1Options}
               series={Box3Data}
               type="line"
               height={100}
-            />
+            /> */}
           </Box>
         </Box>
       </Stack>

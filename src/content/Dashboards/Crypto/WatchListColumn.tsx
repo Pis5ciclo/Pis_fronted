@@ -1,17 +1,18 @@
 import {
-  Card,
-  Box,
-  Typography,
   Avatar,
+  Box,
+  Card,
   Grid,
+  Typography,
   alpha,
-  useTheme,
-  styled
+  styled,
+  useTheme
 } from '@mui/material';
+
+// import { Chart } from 'src/components/Chart';
+import type { ApexOptions } from 'apexcharts';
 import Label from 'src/components/Label';
 import Text from 'src/components/Text';
-import { Chart } from 'src/components/Chart';
-import type { ApexOptions } from 'apexcharts';
 
 const AvatarWrapper = styled(Avatar)(
   ({ theme }) => `
@@ -217,12 +218,12 @@ function WatchListColumn() {
               </Typography>
             </Box>
           </Box>
-          <Chart
+          {/* <Chart
             options={chartOptions}
             series={chart1Data}
             type="area"
             height={200}
-          />
+          /> */}
         </Card>
       </Grid>
       <Grid item md={4} xs={12}>
@@ -292,12 +293,12 @@ function WatchListColumn() {
               </Typography>
             </Box>
           </Box>
-          <Chart
+          {/* <Chart
             options={chartOptions}
             series={chart2Data}
             type="area"
             height={200}
-          />
+          /> */}
         </Card>
       </Grid>
       <Grid item md={4} xs={12}>
@@ -367,12 +368,12 @@ function WatchListColumn() {
               </Typography>
             </Box>
           </Box>
-          <Chart
+          {/* <Chart
             options={chartOptions}
             series={chart3Data}
             type="area"
             height={200}
-          />
+          /> */}
         </Card>
       </Grid>
     </Grid>
