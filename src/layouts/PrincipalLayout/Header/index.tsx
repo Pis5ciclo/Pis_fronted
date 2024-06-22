@@ -82,7 +82,7 @@ function Header() {
             <Button href="/login" variant="outlined">
               Iniciar sesion
             </Button>
-            <Button sx={{ margin: 1 }} color="secondary">
+            <Button href="/singup" sx={{ margin: 1 }} color="secondary">
               Registrarse
             </Button>
           </>
