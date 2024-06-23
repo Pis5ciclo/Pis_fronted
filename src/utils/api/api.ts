@@ -67,6 +67,15 @@ const desactivateAccount = async (external_id:string, token = "NONE") => {
     return response.data;
 }
 
+const searchPerson = async (atribute, token = "NONE") => {
+    const headers = createHeaders(token);
+    const response = await axios.get(`${apiUrl}/search/person`, {
+        headers,
+        params: { atribute }
+    });
+    return response.data;
+}
+
 const api ={
     login,
     listSensor,
@@ -74,6 +83,7 @@ const api ={
     roles,
     saveUser,
     updateUser,
-    desactivateAccount
+    desactivateAccount,
+    searchPerson
 }
 export default api

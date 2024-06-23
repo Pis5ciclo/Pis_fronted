@@ -3,9 +3,7 @@ import { Avatar, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useTheme } from '@mui/material/styles';
 
-function PageWelcomeUser({ userName }) {
-  console.log(userName);
-  
+function PageWelcomeUser({ userName }) {  
   // const user = {
   //   name: 'Catherine Pike',
   //   avatar: '/static/images/avatars/1.jpg'

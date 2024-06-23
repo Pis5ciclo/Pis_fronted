@@ -21,10 +21,6 @@ import api from '@/utils/api/api';
 import { renderMessage } from '@/utils/api/utilities/formErrors';
 import { useRouter } from 'next/router';
 
-// import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-// const defaultTheme = createTheme();
 interface Errors {
   password?: string;
 }
@@ -76,7 +72,7 @@ const schema = yup.object().shape({
 export default function Login() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState({});
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [formData, setFormData] = useState({
@@ -97,33 +93,33 @@ export default function Login() {
       }
     }
   }, [router]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await api.login(formData);
-      const { token, user, role } = response.data;
+      const { token, user, role } = response;
 
       Cookies.set('token_person', token);
       Cookies.set('user', user);
       Cookies.set('role', role);
 
       if (role === 1) {
-        router.push(`/dashboard?name=${user}`)
+        router.push(`/dashboard?name=${user}`);
       } else {
         router.push(`/?name=${user}`);
       }
     } catch (error) {
-      if (error.response) {
-        setLoginError('Credenciales incorrectas. Por favor, intente nuevamente.');
-      } else if (error.request) {
-        router.push('/status/500');
+      console.log(error);
+      if (error.response && error.response.data && error.response.data.error) {
+        setLoginError(error.response.data.error);
       } else {
-        setLoginError('Ocurrió un error inesperado. Por favor, intente nuevamente.');
+        setLoginError('Error desconocido. Por favor, inténtelo de nuevo.');
       }
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,

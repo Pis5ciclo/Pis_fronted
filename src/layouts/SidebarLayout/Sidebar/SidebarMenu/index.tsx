@@ -170,7 +170,17 @@ function SidebarMenu() {
     <>
       <MenuWrapper>
         <List component="div">
-          
+        <Button
+            href="/dashboard"
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="contained"
+            color="success"
+            size="small"
+            fullWidth
+          >
+            Simulacion
+          </Button>
         </List>
         <List
           component="div"

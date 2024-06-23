@@ -1,12 +1,11 @@
 import { Container, Grid } from '@mui/material';
 
-import AccountBalance from '@/content/Dashboards/Crypto/AccountBalance';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
+import InfoSensores from "@/content/Dashboards/Crypto/InfoSensores"
 import PageHeader from '@/content/Dashboards/Crypto/PageHeader';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import SidebarLayout from '@/layouts/SidebarLayout';
-import Wallets from '@/content/Dashboards/Crypto/Wallets';
 
 function DashboardCrypto() {
   return (
@@ -26,7 +25,7 @@ function DashboardCrypto() {
           spacing={4}
         >
           <Grid item lg={8} xs={12}>
-            <Wallets />
+            <InfoSensores/>
           </Grid>
         </Grid>
       </Container>
