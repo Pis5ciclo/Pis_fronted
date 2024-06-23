@@ -1,4 +1,4 @@
-import { Container, Grid, styled } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
 import Footer from '@/components/Footer';
 import Head from 'next/head';
