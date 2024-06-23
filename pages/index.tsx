@@ -1,88 +1,40 @@
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  Typography,
-  styled
-} from '@mui/material';
+import { Container, Grid, styled } from '@mui/material';
 
-import BaseLayout from 'src/layouts/BaseLayout';
+import Footer from '@/components/Footer';
 import Head from 'next/head';
-import Hero from 'src/content/Overview/Hero';
-import Link from 'src/components/Link';
-import Logo from 'src/components/LogoSign';
-import type { ReactElement } from 'react';
+import PageTitleWrapper from '@/components/PageTitleWrapper';
+// import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
+import PrincipalLayout from '@/layouts/PrincipalLayout';
+import SimulationPrognostic from '@/content/Dashboards/Crypto/SimulationPrognostic';
 
-const HeaderWrapper = styled(Card)(
-  ({ theme }) => `
-  width: 100%;
-  display: flex;
-  align-items: center;
-  height: ${theme.spacing(10)};
-  margin-bottom: ${theme.spacing(10)};
-`
-);
-
-const OverviewWrapper = styled(Box)(
-  ({ theme }) => `
-    overflow: auto;
-    background: ${theme.palette.common.white};
-    flex: 1;
-    overflow-x: hidden;
-`
-);
-
-function Overview() {
+function DashboardCrypto() {
   return (
-    <OverviewWrapper>
+    <>
       <Head>
-        <title>UNL</title>
+        <title>Monitoreo de agua y aire</title>
       </Head>
-      <HeaderWrapper>
-        <Container maxWidth="lg">
-          <Box display="flex" alignItems="center">
-            <Logo />
-            <Box
-              display="flex"
-              alignItems="center"
-              justifyContent="space-between"
-              flex={1}
-            >
-              <Box />
-              <Box>
-                <Button
-                  component={Link}
-                  href="/dashboards/crypto"
-                  variant="contained"
-                  sx={{ ml: 2 }}
-                >
-                  Live Preview
-                </Button>
-              </Box>
-            </Box>
-          </Box>
-        </Container>
-      </HeaderWrapper>
-      <Hero />
-      <Container maxWidth="lg" sx={{ mt: 8 }}>
-        <Typography textAlign="center" variant="subtitle1">
-          Crafted by{' '}
-          <Link
-            href="https://bloomui.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            BloomUI.com
-          </Link>
-        </Typography>
+      <PageTitleWrapper>
+        {/* <PageWelcomeUser userName={userName} /> */}
+      </PageTitleWrapper>
+      <Container maxWidth="lg" >
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={4}
+          style={{ marginRight: '300vh' }}
+        >
+          <Grid item xs={12}>
+            <SimulationPrognostic />
+          </Grid>
+        </Grid>
       </Container>
-    </OverviewWrapper>
+      <Footer />
+    </>
   );
 }
 
-export default Overview;
+DashboardCrypto.getLayout = (page) => <PrincipalLayout>{page}</PrincipalLayout>;
 
-Overview.getLayout = function getLayout(page: ReactElement) {
-  return <BaseLayout>{page}</BaseLayout>;
-};
+export default DashboardCrypto;

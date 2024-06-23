@@ -17,7 +17,7 @@ function DashboardCrypto() {
   return (
     <>
       <Head>
-        <title>Crypto Dashboard</title>
+        <title>Página Principal</title>
       </Head>
         <PageTitleWrapper>
           <PageWelcomeUser userName={userName} />

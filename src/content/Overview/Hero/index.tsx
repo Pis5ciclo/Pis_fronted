@@ -22,7 +22,7 @@ function Hero() {
       >
         <Grid item md={10} lg={8} mx="auto">
           <TypographyH1 sx={{ mb: 2 }} variant="h1">
-            Tokyo Free White Next.js Typescript Admin Dashboard
+            Universidad Nacional de Loja
           </TypographyH1>
           <Grid container spacing={3} mt={5}>
           </Grid>

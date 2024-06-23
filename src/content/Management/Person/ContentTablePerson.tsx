@@ -22,7 +22,7 @@ import { useEffect, useState } from 'react';
 
 import BulkActions from './BulkActions';
 import Cookies from 'js-cookie';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { LockSharp } from '@mui/icons-material';
 import DesactivatePersonModal from '@/components/modals/modal-person/DesactivatePersonModal';
 import EditPersonModal from '@/components/modals/modal-person/EditPersonModal';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
@@ -305,7 +305,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                       </IconButton>
                     </Tooltip>
                     {order.rol !== 'Administrador' && (
-                      <Tooltip title="Desactivar" arrow>
+                      <Tooltip title="Cambiar Estado" arrow>
                         <IconButton
                           sx={{
                             '&:hover': { background: theme.colors.error.lighter },
@@ -315,7 +315,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                           size="small"
                           onClick={() => handleDesactivateClick(order)}
                         >
-                          <DeleteTwoToneIcon fontSize="small" />
+                          <LockSharp fontSize="small" />
                         </IconButton>
                       </Tooltip>
                     )}

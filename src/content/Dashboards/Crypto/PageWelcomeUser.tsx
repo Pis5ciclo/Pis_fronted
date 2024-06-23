@@ -13,20 +13,11 @@ function PageWelcomeUser({ userName }) {
   return (
     <Grid container alignItems="center">
       <Grid item>
-        <Avatar
-          sx={{
-            mr: 2,
-            width: theme.spacing(8),
-            height: theme.spacing(8)
-          }}
-          variant="rounded"
-          // alt={user ? user.name : 'Invitado'}
-          // src={user.avatar}
-        />
+      <Avatar sx={{ mr: 2, bgcolor: 'blue', width: 40, height: 40, fontSize: '1.5rem' }}> A</Avatar>
       </Grid>
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Bienvenido, {userName}!
+          Bienvenido {userName}!
         </Typography>
         <Typography variant="subtitle2">
           Gracias por hacer uso de nuestro programa!
