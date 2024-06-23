@@ -1,7 +1,5 @@
 import {
-  Avatar,
   Box,
-  Button,
   Card,
   Divider,
   Grid,
@@ -15,17 +13,6 @@ import {
 } from '@mui/material';
 
 import Text from 'src/components/Text';
-import TrendingUp from '@mui/icons-material/TrendingUp';
-
-const AvatarSuccess = styled(Avatar)(
-  ({ theme }) => `
-      background-color: ${theme.colors.success.main};
-      color: ${theme.palette.success.contrastText};
-      width: ${theme.spacing(8)};
-      height: ${theme.spacing(8)};
-      box-shadow: ${theme.colors.shadows.success};
-`
-);
 
 const ListItemAvatarWrapper = styled(ListItemAvatar)(
   ({ theme }) => `
@@ -58,6 +45,28 @@ function AccountBalance() {
     <Card>
       <Grid spacing={0} container>
         <Grid item xs={12} md={6}>
+          <Box p={4}>
+            <Typography
+              sx={{
+                pb: 3
+              }}
+              variant="h4"
+            >
+              Simulacion de pronostico
+            </Typography>
+            {/* <Grid container spacing={3}>
+              <Grid sm item>
+                <Button fullWidth variant="outlined">
+                  Send
+                </Button>
+              </Grid>
+              <Grid sm item>
+                <Button fullWidth variant="contained">
+                  Receive
+                </Button>
+              </Grid>
+            </Grid> */}
+          </Box>
         </Grid>
         <Grid
           sx={{
