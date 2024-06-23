@@ -170,17 +170,24 @@ function SidebarMenu() {
     <>
       <MenuWrapper>
         <List component="div">
-        <Button
-            href="/dashboard"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="contained"
-            color="success"
-            size="small"
-            fullWidth
-          >
-            Simulacion
-          </Button>
+          <ListItem component="div">
+            <NextLink href="/dashboard" passHref>
+              <Button
+                className={
+                  currentRoute === '/dashboard' ? 'active' : ''
+                }
+                disableRipple
+                component="a"
+                onClick={closeSidebar}
+                color='success'
+                fullWidth
+                variant='contained'
+                startIcon={<BrightnessLowTwoToneIcon />}
+              >
+                Simulacion de datos
+              </Button>
+            </NextLink>
+          </ListItem>
         </List>
         <List
           component="div"
@@ -219,36 +226,6 @@ function SidebarMenu() {
                     startIcon={<BrightnessLowTwoToneIcon />}
                   >
                     Gestion Sensores
-                  </Button>
-                </NextLink>
-              </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Management
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
-              <ListItem component="div">
-                <NextLink href="/management/transactions" passHref>
-                  <Button
-                    className={
-                      currentRoute === '/management/transactions'
-                        ? 'active'
-                        : ''
-                    }
-                    disableRipple
-                    component="a"
-                    onClick={closeSidebar}
-                    startIcon={<TableChartTwoToneIcon />}
-                  >
-                    Transactions List
                   </Button>
                 </NextLink>
               </ListItem>
