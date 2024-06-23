@@ -5,7 +5,8 @@ import Head from 'next/head';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 // import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
 import PrincipalLayout from '@/layouts/PrincipalLayout';
-import SimulationPrognostic from '@/content/Dashboards/Crypto/SimulationPrognostic';
+
+// import SimulationPrognostic from '@/content/Dashboards/Crypto/SimulationPrognostic';
 
 function DashboardCrypto() {
   return (
@@ -26,7 +27,7 @@ function DashboardCrypto() {
           style={{ marginRight: '300vh' }}
         >
           <Grid item xs={12}>
-            <SimulationPrognostic />
+            {/* <SimulationPrognostic /> */}
           </Grid>
         </Grid>
       </Container>
