@@ -20,6 +20,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import api from '@/utils/api/api';
 import { renderMessage } from '@/utils/api/utilities/formErrors';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 interface Errors {
   password?: string;
@@ -149,132 +150,136 @@ export default function Login() {
   };
 
   return (
-    // <ThemeProvider theme={defaultTheme}>
-    <Grid container component="main" sx={{ height: '100vh' }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: 'url(/image/login.jpg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: (t) =>
-            t.palette.mode === 'light'
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: 'cover',
-          backgroundPosition: 'center'
-        }}
-      />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <Box
+    <>
+      <Head>
+        <title>Iniciar Sesión</title>
+      </Head>
+
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
+            backgroundImage: 'url(/image/login.jpg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light'
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}
-        >
-          <Avatar sx={{ width: 80, height: 80 }}>
-            <img
-              src="/image/logo-unl.png"
-              alt="Tu imagen"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          </Avatar>
-          <Typography component="h1" variant="h3" fontFamily="Helvetica">
-            INICIO DE SESION
-          </Typography>
-          <Box sx={{ mt: 1 }}>
-            <form onSubmit={handleSubmit}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Corre electronico"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                type="search"
-                value={formData.email}
-                onChange={handleChange}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <Avatar sx={{ width: 80, height: 80 }}>
+              <img
+                src="/image/logo-unl.png"
+                alt="Tu imagen"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
-                label="Contrasena"
-                name="password"
-                autoComplete="current-password"
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password}
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleTogglePasswordVisibility}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-              <div className="">
-                {renderMessage({
-                  errors,
-                  fieldName: 'password'
-                })}
-              </div>
-              {loginError && (
-                <div
+            </Avatar>
+            <Typography component="h1" variant="h3" fontFamily="Helvetica">
+              INICIO DE SESION
+            </Typography>
+            <Box sx={{ mt: 1 }}>
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Corre electronico"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  type="search"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="password"
+                  label="Contrasena"
+                  name="password"
+                  autoComplete="current-password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleTogglePasswordVisibility}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <div className="">
+                  {renderMessage({
+                    errors,
+                    fieldName: 'password'
+                  })}
+                </div>
+                {loginError && (
+                  <div
+                    style={{
+                      color: 'red',
+                      marginTop: '10px',
+                      fontSize: '0.8rem'
+                    }}
+                  >
+                    {loginError}
+                  </div>
+                )}
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={!isPasswordValid}
                   style={{
-                    color: 'red',
-                    marginTop: '10px',
-                    fontSize: '0.8rem'
+                    opacity: isPasswordValid ? 1 : 0.7,
+                    backgroundColor: '#007bff'
                   }}
                 >
-                  {loginError}
-                </div>
-              )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                disabled={!isPasswordValid}
-                style={{
-                  opacity: isPasswordValid ? 1 : 0.7,
-                  backgroundColor: '#007bff'
-                }}
-              >
-                Sign In
-              </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/forgot-password" variant="body2">
-                    Forgot password?
-                  </Link>
+                  Sign In
+                </Button>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="/forgot-password" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/singup" variant="body2">
+                      {"Registrarse"}
+                    </Link>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Link href="/singup" variant="body2">
-                    {"Registrarse"}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
+              </form>
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
-    // </ThemeProvider>
+    </>
   );
 }

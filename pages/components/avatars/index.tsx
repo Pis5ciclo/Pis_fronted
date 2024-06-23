@@ -97,6 +97,7 @@ function Avatars() {
                   <Avatar>H</Avatar>
                   <Avatar sx={{ bgcolor: deepOrange[500] }}>N</Avatar>
                   <Avatar sx={{ bgcolor: deepPurple[500] }}>OP</Avatar>
+                  <Avatar sx={{ bgcolor: deepOrange[500] }}>A</Avatar>
                 </Stack>
                 <Divider sx={{ my: 5 }} />
                 <Stack direction="row" spacing={2}>

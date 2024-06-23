@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   styled,
 } from '@mui/material';
@@ -25,11 +26,13 @@ const LogoSignWrapper = styled(Box)(
 
 function Logo() {
   return (
-      <LogoWrapper href="#">
-          <LogoSignWrapper>
-            <>UUUUUUUUU</>
-          </LogoSignWrapper>
-      </LogoWrapper>
+    <LogoWrapper href="">
+      <LogoSignWrapper>
+        <Avatar sx={{ width: 65, height: 65}}>
+          <img src="/image/logo-unl.png" alt="Tu imagen" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </Avatar>
+      </LogoSignWrapper>
+    </LogoWrapper>
   );
 }
 

@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import api from '@/utils/api/api';
 import { useRouter } from 'next/router';
 import { FormControl, MenuItem, Select, InputLabel } from '@mui/material';
+import Head from 'next/head';
 
 export default function Login() {
     const router = useRouter();
@@ -42,7 +43,7 @@ export default function Login() {
         event.preventDefault();
         const response = await api.saveUser(formData, token);
         console.log('Usuario guardado:', response);
-        router.push(`/`);
+        router.push(`/login`);
     }
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -53,6 +54,11 @@ export default function Login() {
     };
 
     return (
+        <>
+        <Head>
+            <title>Registro</title>
+        </Head>
+        
         <Grid
             container
             spacing={2}
@@ -157,7 +163,7 @@ export default function Login() {
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12} md={6}>
+                            {/* <Grid item xs={12} md={6}>
                                 <FormControl fullWidth margin="dense">
                                     <InputLabel id="role-label">Rol</InputLabel>
                                     <Select
@@ -173,7 +179,7 @@ export default function Login() {
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                         <Grid container justifyContent="center" spacing={10} >
                             <Grid item>
@@ -191,5 +197,7 @@ export default function Login() {
                 </Box>
             </Grid>
         </Grid>
+
+        </>
     );
 }

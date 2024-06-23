@@ -25,10 +25,10 @@ const DesactivatePersonModal: React.FC<DesactivatePersonModalProps> = ({ open, h
     };
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Desactivar Cuenta</DialogTitle>
+            <DialogTitle>Cambiar Estado</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    ¿Estás seguro de que quieres desactivar la cuenta de {person.name} {person.lastname}?
+                    ¿Estás seguro de que quieres {person.status === 'activo' ? 'desactivar' : 'activar'} la cuenta de {person.name} {person.lastname}?
                 </DialogContentText>
                 <AlertMessage alert={alert} />
                 <DialogActions>
@@ -40,7 +40,8 @@ const DesactivatePersonModal: React.FC<DesactivatePersonModalProps> = ({ open, h
                     </Button>
                 </DialogActions>
             </DialogContent>
-        </Dialog >
+        </Dialog>
+
     );
 };
 
