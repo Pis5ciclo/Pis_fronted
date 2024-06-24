@@ -45,8 +45,6 @@ function PageHeader({ onAddPerson }) {
         external_id: '',
         name: '',
         lastname: '',
-        phone: '',
-        identification: '',
         rol: '',
         email: '',
         status: '',
@@ -56,12 +54,6 @@ function PageHeader({ onAddPerson }) {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('campo requerido*'),
         lastname: Yup.string().required('campo requerido*'),
-        phone: Yup.string()
-            .required('campo requerido*')
-            .matches(/^\d{10}$/, 'Ingrese un numero de telefono válido'),
-        identification: Yup.string()
-            .required('campo requerido*')
-            .matches(/^\d{10}$/, 'Ingrese una identificación válida'),
         email: Yup.string()
             .required('campo requerido*')
             .matches(/.*@.*\..*/, 'Ingrese un correo electrónico válido'),
@@ -130,8 +122,6 @@ function PageHeader({ onAddPerson }) {
         const isValid = Object.keys(errors).length === 0 &&
             formData.name !== '' &&
             formData.lastname !== '' &&
-            formData.phone !== '' &&
-            formData.identification !== '' &&
             formData.email !== '' &&
             formData.password !== '' &&
             formData.rol !== '';
@@ -152,7 +142,6 @@ function PageHeader({ onAddPerson }) {
                 }, 1000);
             } catch (error) {
                 console.error('Error al guardar el usuario:', error.message);
-                setAlert({ message: error.message, severity: 'error', open: true });
             }
         }
     };
@@ -242,42 +231,6 @@ function PageHeader({ onAddPerson }) {
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         margin="dense"
-                                        id="phone"
-                                        name='phone'
-                                        label="Teléfono"
-                                        type="number"
-                                        fullWidth
-                                        value={formData.phone || ''}
-                                        onChange={handleChange}
-                                        error={!!errors.phone}
-                                    />
-                                    {errors.phone && (
-                                        <div className={classes.errorText}>
-                                            {errors.phone}
-                                        </div>
-                                    )}
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        margin="dense"
-                                        id="identification"
-                                        name='identification'
-                                        label="Cedula"
-                                        type="number"
-                                        fullWidth
-                                        value={formData.identification || ''}
-                                        onChange={handleChange}
-                                        error={!!errors.identification}
-                                    />
-                                    {errors.identification && (
-                                        <div className={classes.errorText}>
-                                            {errors.identification}
-                                        </div>
-                                    )}
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        margin="dense"
                                         id="email"
                                         label="Correo Electrónico"
                                         type="email"
@@ -334,6 +287,11 @@ function PageHeader({ onAddPerson }) {
                                     )}
                                 </Grid>
                             </Grid>
+                            {alert.open && (
+                                <Alert severity={alert.severity} onClose={() => setAlert({ ...alert, open: false })}>
+                                    {alert.message}
+                                </Alert>
+                            )}
                             <DialogActions>
                                 <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
                                     Cancelar

@@ -243,7 +243,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                         <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
                             Cancelar
                         </Button>
-                        <Button type='submit' color="primary" sx={{ border: '1px solid blue' }}>
+                        <Button type='submit' color="success">
                             Guardar
                         </Button>
                     </DialogActions>

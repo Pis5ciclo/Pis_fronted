@@ -20,8 +20,6 @@ export default function Login() {
         password: '',
         name: '',
         lastname: '',
-        phone: '',
-        identification: ''
     });
 
     const handleSubmit = async (event) => {
@@ -102,28 +100,6 @@ export default function Login() {
                                         type="text"
                                         fullWidth
                                         value={formData.lastname}
-                                        onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        margin="dense"
-                                        name="phone"
-                                        label="Teléfono"
-                                        type="text"
-                                        fullWidth
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        margin="dense"
-                                        name="identification"
-                                        label="Identificación"
-                                        type="text"
-                                        fullWidth
-                                        value={formData.identification}
                                         onChange={handleChange}
                                     />
                                 </Grid>

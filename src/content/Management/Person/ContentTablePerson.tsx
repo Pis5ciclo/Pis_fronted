@@ -19,14 +19,12 @@ import {
   useTheme
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import * as Yup from 'yup';
 import BulkActions from './BulkActions';
 import Cookies from 'js-cookie';
-import { LockSharp } from '@mui/icons-material';
 import DesactivatePersonModal from '@/components/modals/modal-person/DesactivatePersonModal';
 import EditPersonModal from '@/components/modals/modal-person/EditPersonModal';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import Toolbar from '@mui/material/Toolbar';
+import { LockSharp } from '@mui/icons-material';
 import { Person } from '@/models/person';
 import Text from '@/components/Text';
 import api from '@/utils/api/api';
@@ -57,7 +55,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedPersons, setSelectedSensors] = useState<string[]>([]);
-  const [openSearchResults, setOpenSearchResults] = useState(false);
   const selectedBulkActions = selectedPersons.length > 0;
   const [isModalOpen, setModalOpen] = useState(false);
   const [editPersonData, setEditPersonData] = useState<Person | null>(null);
@@ -148,8 +145,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
     const filterPersons = () => {
       if (person.length > 0) {
         const filtered = person.filter(p =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.identification.toString().includes(searchQuery)
+          p.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setFilteredPersons(filtered);
       } else {
@@ -199,8 +195,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
               <TableCell padding="checkbox"></TableCell>
               <TableCell>Nombres</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Telefono</TableCell>
-              <TableCell>Identificacion</TableCell>
               <TableCell>email</TableCell>
               <TableCell>estado</TableCell>
               <TableCell>rol</TableCell>
@@ -237,28 +231,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                       noWrap
                     >
                       {order.lastname}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {order.phone}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {order.identification}
                     </Typography>
                   </TableCell>
                   <TableCell>

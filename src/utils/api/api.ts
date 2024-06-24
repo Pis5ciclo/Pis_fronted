@@ -63,7 +63,6 @@ const saveUser = async (data, token = "NONE") => {
 }
 const saveSensor = async (data, token = "NONE") => {
     const headers = createHeaders(token);
-<<<<<<< HEAD
     try {
         const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
         return response.data;
@@ -74,10 +73,6 @@ const saveSensor = async (data, token = "NONE") => {
             throw new Error('Error en la conexión al servidor');
         }
     }
-=======
-    const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
-    return response.data;
->>>>>>> main
 }
 
 const updateUser = async (data: any, external_id:string, token = "NONE") => {
