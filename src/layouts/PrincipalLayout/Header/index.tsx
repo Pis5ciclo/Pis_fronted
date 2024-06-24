@@ -37,16 +37,19 @@ function Header() {
   const theme = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
-  const { query } = router;
-  const userName = query.name || '';
+  const [userName, setUserName] = useState('');
+  const { name } = router.query;
 
   useEffect(() => {
     const token = Cookies.get('token_person');
-    const role = Cookies.get('role');
-    if (token && role) {
+    // const role = Cookies.get('role');
+    const storedUserName = Cookies.get('user');
+    if (typeof name === 'string') {
       setIsAuthenticated(true);
+      Cookies.set('user', name);
     } else {
       setIsAuthenticated(false);
+      setUserName(storedUserName);
     }
   }, []);
   

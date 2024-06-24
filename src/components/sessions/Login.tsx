@@ -86,8 +86,8 @@ export default function Login() {
     const role = Cookies.get('role');
     const storedUser = Cookies.get('user');
     console.log("Contenido de la cookie 'user':", storedUser);
-    if (token && role) {
-      if (role === '1') {
+    if (token) {
+      if (role === 'Administrador') {
         router.push('/dashboard');
       } else {
         router.push('/');
@@ -103,9 +103,8 @@ export default function Login() {
 
       Cookies.set('token_person', token);
       Cookies.set('user', user);
-      // Cookies.set('role', role);
 
-      if (role === 'Administrador') {
+      if (role ===  'Administrador' ) {
         router.push(`/dashboard?name=${user}`);
       } else {
         router.push(`/?name=${user}`);
