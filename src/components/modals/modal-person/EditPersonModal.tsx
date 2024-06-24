@@ -1,9 +1,7 @@
 import * as Yup from 'yup';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Dialog, Alert, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
-import AlertMessage from '@/utils/api/utilities/Alert';
 import { Person } from '@/models/person';
 import Validation from '@/utils/api/utilities/Validation';
 import api from '@/utils/api/api';
@@ -30,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, person, handleSave }) => {
     const [rolesOptions, setRolesOptions] = useState([]);
     const classes = useStyles();
+    const [errorTimer, setErrorTimer] = useState(null);
     const [formData, setFormData] = useState<Person>({
         external_id: '',
         name: '',
@@ -71,6 +70,10 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+
+        if (errorTimer) {
+            clearTimeout(errorTimer);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -94,7 +97,7 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                                 label="Nombres"
                                 type="text"
                                 fullWidth
-                                value={formData?.name || ''}
+                                value={formData.name || ''}
                                 onChange={handleChange}
                                 error={!!errors.name}
                             />
@@ -157,7 +160,11 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                             </FormControl>
                         </Grid>
                     </Grid>
-                    <AlertMessage alert={alert} />
+                    {alert.open && (
+                        <Alert severity={alert.severity} onClose={() => setAlert({ ...alert, open: false })}>
+                            {alert.message}
+                        </Alert>
+                    )}
                     <DialogActions>
                         <Button onClick={handleClose} variant='outlined' color='error'>
                             Cancelar

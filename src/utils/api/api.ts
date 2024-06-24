@@ -49,28 +49,47 @@ const roles = async (token = "NONE") => {
     return response.data.data;
 }
 
-const saveUser = async (data, token = "NONE") => {
+const saveSensor = async (data, token = "NONE") => {
+    const headers = createHeaders(token);
     try {
-        const headers = createHeaders(token);
         const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
         return response.data;
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            return error.response.data;
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw new Error('Error en conexión al servidor');
         }
-        throw error;
     }
 }
-const saveSensor = async (data, token = "NONE") => {
+
+const saveUser = async (data, token = "NONE") => {
     const headers = createHeaders(token);
-    const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
-    return response.data;
+    try {
+        const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw new Error('Error en la conexión al servidor');
+        }
+    }
 }
 
 const updateUser = async (data: any, external_id:string, token = "NONE") => {
     const headers = createHeaders(token);
-    const response = await axios.post(`${apiUrl}/modify_person/${external_id}`, data, { headers });
-    return response.data;
+
+    try{
+        const response = await axios.post(`${apiUrl}/modify_person/${external_id}`, data, { headers });
+        return response.data;
+    }catch (error) {
+        if (error.response && error.response.data) {
+            throw new Error(error.response.data.error);
+        } else {
+            throw new Error('Error en la conexión al servidor');
+        }
+    }
 }
 
 const desactivateAccount = async (external_id:string, token = "NONE") => {

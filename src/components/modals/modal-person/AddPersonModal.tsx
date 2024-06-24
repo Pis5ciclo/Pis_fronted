@@ -1,8 +1,6 @@
 import * as Yup from 'yup';
-
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
 import AlertMessage from '@/utils/api/utilities/Alert';
 import { Person } from '@/models/person';
 import Validation from '@/utils/api/utilities/Validation';
@@ -14,21 +12,31 @@ interface AddPersonModalProps {
     handleClose: () => void;
     handleSavePerson: (person: Person, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => Promise<void>;
 }
+
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('campo requerido*'),
     lastname: Yup.string().required('campo requerido*'),
-    phone: Yup.string().required('campo requerido*'),
-    identification: Yup.string().required('campo requerido*'),
-    email: Yup.string().email('Ingrese un correo válido').required('campo requerido*'),
+    email: Yup.string()
+        .required('campo requerido*')
+        .matches(/.*@.*\..*/, 'Ingrese un correo electrónico válido'),
+
     password: Yup.string().required('campo requerido*'),
+    rol: Yup.string().required('Seleccione un rol')
 });
+
 const useStyles = makeStyles(theme => ({
     errorText: {
         color: 'red',
         fontSize: '0.7rem',
         marginLeft: '0.30rem'
     },
+    formErrorText: {
+        color: 'red',
+        fontSize: '0.9rem',
+        marginTop: '1rem'
+    }
 }));
+
 const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, handleSavePerson }) => {
     const [rolesOptions, setRolesOptions] = useState([]);
     const classes = useStyles();
@@ -36,8 +44,6 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
         external_id: '',
         name: '',
         lastname: '',
-        phone: 0,
-        identification: '',
         rol: '',
         email: '',
         status: '',
@@ -49,6 +55,8 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
         severity: 'success',
         open: false,
     });
+
+    const [formError, setFormError] = useState<string>('');
 
     const { errors, validate, resetErrors } = Validation(validationSchema);
 
@@ -66,7 +74,8 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
 
     useEffect(() => {
         setAlert({ message: '', severity: 'success', open: false });
-        resetErrors()
+        setFormError('');
+        resetErrors();
     }, [open]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +87,10 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
         e.preventDefault();
         const isValid = await validate(formData);
         if (isValid) {
+            setFormError('');
             await handleSavePerson(formData, setAlert);
+        } else {
+            setFormError('Por favor, complete todos los campos.');
         }
     };
 
@@ -95,7 +107,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                                 label="Nombres"
                                 type="text"
                                 fullWidth
-                                value={formData.name}
+                                value={formData?.name || ''}
                                 onChange={handleChange}
                                 error={!!errors.name}
                             />
@@ -113,7 +125,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                                 label="Apellidos"
                                 type="text"
                                 fullWidth
-                                value={formData.lastname}
+                                value={formData.lastname || ''}
                                 onChange={handleChange}
                                 error={!!errors.lastname}
                             />
@@ -125,47 +137,12 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
-                                autoFocus
-                                margin="dense"
-                                name="phone"
-                                label="Telefono"
-                                type="number"
-                                fullWidth
-                                value={formData.phone}
-                                onChange={handleChange}
-                                error={!!errors.phone}
-                            />
-                            {errors.phone && (
-                                <div className={classes.errorText}>
-                                    {errors.phone}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                margin="dense"
-                                name="identification"
-                                label="Identificacion"
-                                type="number"
-                                fullWidth
-                                value={formData.identification}
-                                onChange={handleChange}
-                                error={!!errors.identification}
-                            />
-                            {errors.identification && (
-                                <div className={classes.errorText}>
-                                    {errors.identification}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
                                 margin="dense"
                                 name="email"
-                                label="Correo electronico"
+                                label="Correo electrónico"
                                 type="text"
                                 fullWidth
-                                value={formData.email}
+                                value={formData.email || ''}
                                 onChange={handleChange}
                                 error={!!errors.email}
                             />
@@ -179,16 +156,16 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                             <TextField
                                 margin="dense"
                                 name="password"
-                                label="Contrasena"
+                                label="Contraseña"
                                 type="password"
                                 fullWidth
-                                value={formData.password}
+                                value={formData.password || ''}
                                 onChange={handleChange}
                                 error={!!errors.password}
                             />
-                            {errors.email && (
+                            {errors.password && (
                                 <div className={classes.errorText}>
-                                    {errors.email}
+                                    {errors.password}
                                 </div>
                             )}
                         </Grid>
@@ -210,6 +187,11 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                             </FormControl>
                         </Grid>
                     </Grid>
+                    {formError && (
+                        <Typography className={classes.formErrorText}>
+                            {formError}
+                        </Typography>
+                    )}
                     <AlertMessage alert={alert} />
                     <DialogActions>
                         <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
@@ -221,7 +203,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                     </DialogActions>
                 </form>
             </DialogContent>
-        </Dialog >
+        </Dialog>
     );
 };
 
