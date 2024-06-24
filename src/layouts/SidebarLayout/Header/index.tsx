@@ -35,20 +35,20 @@ const HeaderWrapper = styled(Box)(
 
 function Header() {
   const theme = useTheme();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const { name } = router.query;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userName, setUserName] = useState('');
 
-
   useEffect(() => {
-    const token = Cookies.get('token_person');
-    // const role = Cookies.get('role');
-    if (token && typeof name === 'string') {
-      setUserName(name);
+    const storedName = Cookies.get('user');
+    if (name && typeof name === 'string') {
       setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
+      setUserName(name);
+      Cookies.set('user', name);
+    } else if (storedName) {
+      setIsAuthenticated(true);
+      setUserName(storedName);
     }
   }, [name]);
 

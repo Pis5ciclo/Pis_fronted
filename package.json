@@ -1,10 +1,9 @@
 {
-  "name": "tokyo-free-white-nextjs-admin-dashboard",
+  "name": "Proyecto Integrador de Saberes",
   "version": "1.0.0",
-  "title": "Tokyo Free White NextJS Typescript Admin Dashboard",
-  "description": "High performance React template built with lots of powerful MUI (Material-UI) components across multiple product niches for fast & perfect apps development processes",
+  "title": "Universidad Nacional de Loja",
   "author": {
-    "name": "BloomUI.com",
+    "name": "Grupo 1",
     "url": "https://bloomui.com"
   },
   "private": false,
