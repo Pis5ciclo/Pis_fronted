@@ -8,11 +8,11 @@ import {
   styled,
   useTheme
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
+import Cookies from "js-cookie";
 import HeaderUserbox from './Userbox';
 import { useRouter } from 'next/router';
-import Cookies from "js-cookie";
-import { useEffect, useState } from 'react';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -37,18 +37,20 @@ function Header() {
   const theme = useTheme();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
-  const { query } = router;
-  const userName = query.name || '';
+  const { name } = router.query;
+  const [userName, setUserName] = useState('');
+
 
   useEffect(() => {
     const token = Cookies.get('token_person');
-    const role = Cookies.get('role');
-    if (token && role) {
+    // const role = Cookies.get('role');
+    if (token && typeof name === 'string') {
+      setUserName(name);
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
     }
-  }, []);
+  }, [name]);
 
   return (
     <HeaderWrapper
