@@ -32,10 +32,10 @@ const DesactivatePersonModal: React.FC<DesactivatePersonModalProps> = ({ open, h
                 </DialogContentText>
                 <AlertMessage alert={alert} />
                 <DialogActions>
-                    <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
+                    <Button onClick={handleClose} variant='outlined' color='error'>
                         Cancelar
                     </Button>
-                    <Button onClick={handleConfirm} color="primary" sx={{ border: '1px solid blue' }}>
+                    <Button onClick={handleConfirm} color="primary" variant='outlined'>
                         {person.status === 'activo' ? 'Desactivar' : 'Activar'}
                     </Button>
                 </DialogActions>

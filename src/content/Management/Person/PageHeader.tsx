@@ -27,8 +27,6 @@ function PageHeader({ onAddPerson }) {
         external_id: '',
         name: '',
         lastname: '',
-        phone: 0,
-        identification: '',
         rol: '',
         email: '',
         status: '',
@@ -120,31 +118,6 @@ function PageHeader({ onAddPerson }) {
                                 <Grid item xs={12} md={6}>
                                     <TextField
                                         margin="dense"
-                                        id="phone"
-                                        name='phone'
-                                        label="Teléfono"
-                                        type="tel"
-                                        fullWidth
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        margin="dense"
-                                        id="identification"
-                                        name='identification'
-                                        label="Cedula"
-                                        type="tel"
-                                        fullWidth
-                                        value={formData.identification}
-                                        onChange={handleChange}
-
-                                    />
-                                </Grid>
-                                <Grid item xs={12} md={6}>
-                                    <TextField
-                                        margin="dense"
                                         id="email"
                                         label="Correo Electrónico"
                                         type="email"
@@ -186,10 +159,10 @@ function PageHeader({ onAddPerson }) {
                             </Grid>
                             <AlertMessage alert={alert} />
                             <DialogActions>
-                                <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
+                                <Button onClick={handleClose} variant='outlined' color='error'>
                                     Cancelar
                                 </Button>
-                                <Button type="submit" color="primary" sx={{ border: '1px solid blue' }}>
+                                <Button type="submit" color="primary" variant='outlined'>
                                     Registrar
                                 </Button>
                             </DialogActions>

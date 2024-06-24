@@ -18,8 +18,6 @@ interface EditPersonModalProps {
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('campo requerido*'),
     lastname: Yup.string().required('campo requerido*'),
-    phone: Yup.string().required('campo requerido*'),
-    identification: Yup.string().required('campo requerido*'),
     email: Yup.string().email('Ingrese un correo válido').required('campo requerido*'),
 });
 const useStyles = makeStyles(theme => ({
@@ -36,8 +34,6 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
         external_id: '',
         name: '',
         lastname: '',
-        phone: 0,
-        identification: '',
         rol: '',
         email: '',
         status: '',
@@ -128,41 +124,6 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
-                                autoFocus
-                                margin="dense"
-                                name="phone"
-                                label="Telefono"
-                                type="number"
-                                fullWidth
-                                value={formData.phone || ''}
-                                onChange={handleChange}
-                                error={!!errors.phone}
-                            />
-                            {errors.phone && (
-                                <div className={classes.errorText}>
-                                    {errors.phone}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                margin="dense"
-                                name="identification"
-                                label="Identificacion"
-                                type="number"
-                                fullWidth
-                                value={formData.identification || ''}
-                                onChange={handleChange}
-                                error={!!errors.identification}
-                            />
-                            {errors.identification && (
-                                <div className={classes.errorText}>
-                                    {errors.identification}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
                                 margin="dense"
                                 name="email"
                                 label="Correo electronico"
@@ -198,11 +159,11 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                     </Grid>
                     <AlertMessage alert={alert} />
                     <DialogActions>
-                        <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
+                        <Button onClick={handleClose} variant='outlined' color='error'>
                             Cancelar
                         </Button>
-                        <Button type='submit' color="primary"sx={{ border: '1px solid blue' }}>
-                            Guardar
+                        <Button type="submit" color="primary" variant='outlined'>
+                            Registrar
                         </Button>
                     </DialogActions>
                 </form>
