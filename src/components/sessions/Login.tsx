@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import Cookies from 'js-cookie';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
+import Head from 'next/head';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Link from '@mui/material/Link';
@@ -20,7 +21,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import api from '@/utils/api/api';
 import { renderMessage } from '@/utils/api/utilities/formErrors';
 import { useRouter } from 'next/router';
-import Head from 'next/head';
 
 interface Errors {
   password?: string;
@@ -103,9 +103,9 @@ export default function Login() {
 
       Cookies.set('token_person', token);
       Cookies.set('user', user);
-      Cookies.set('role', role);
+      // Cookies.set('role', role);
 
-      if (role === 1) {
+      if (role === 'Administrador') {
         router.push(`/dashboard?name=${user}`);
       } else {
         router.push(`/?name=${user}`);

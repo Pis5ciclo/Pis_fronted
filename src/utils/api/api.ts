@@ -50,9 +50,16 @@ const roles = async (token = "NONE") => {
 }
 
 const saveUser = async (data, token = "NONE") => {
-    const headers = createHeaders(token);
-    const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
-    return response.data;
+    try {
+        const headers = createHeaders(token);
+        const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data;
+        }
+        throw error;
+    }
 }
 
 const updateUser = async (data: any, external_id:string, token = "NONE") => {
