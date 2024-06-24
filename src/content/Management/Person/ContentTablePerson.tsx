@@ -22,10 +22,10 @@ import { useEffect, useState } from 'react';
 
 import BulkActions from './BulkActions';
 import Cookies from 'js-cookie';
-import { LockSharp } from '@mui/icons-material';
 import DesactivatePersonModal from '@/components/modals/modal-person/DesactivatePersonModal';
 import EditPersonModal from '@/components/modals/modal-person/EditPersonModal';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { LockSharp } from '@mui/icons-material';
 import { Person } from '@/models/person';
 import Text from '@/components/Text';
 import api from '@/utils/api/api';
@@ -145,8 +145,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
     const filterPersons = () => {
       if (person.length > 0) {
         const filtered = person.filter(p =>
-          p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          p.identification.toString().includes(searchQuery)
+          p.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setFilteredPersons(filtered);
       } else {
@@ -195,8 +194,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
               <TableCell padding="checkbox"></TableCell>
               <TableCell>Nombres</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Telefono</TableCell>
-              <TableCell>Identificacion</TableCell>
               <TableCell>email</TableCell>
               <TableCell>estado</TableCell>
               <TableCell>rol</TableCell>
@@ -233,28 +230,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                       noWrap
                     >
                       {order.lastname}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {order.phone}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {order.identification}
                     </Typography>
                   </TableCell>
                   <TableCell>
