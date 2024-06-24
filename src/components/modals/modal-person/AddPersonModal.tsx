@@ -16,15 +16,6 @@ interface AddPersonModalProps {
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('campo requerido*'),
     lastname: Yup.string().required('campo requerido*'),
-
-    phone: Yup.string()
-        .required('campo requerido*')
-        .matches(/^\d{10}$/, 'Ingrese un numero de telefono válido'),
-
-    identification: Yup.string()
-        .required('campo requerido*')
-        .matches(/^\d{10}$/, 'Ingrese una identificación válida'),
-
     email: Yup.string()
         .required('campo requerido*')
         .matches(/.*@.*\..*/, 'Ingrese un correo electrónico válido'),
@@ -53,8 +44,6 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
         external_id: '',
         name: '',
         lastname: '',
-        phone: 0,
-        identification: '',
         rol: '',
         email: '',
         status: '',
@@ -97,7 +86,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const isValid = await validate(formData);
-        if (isValid && formData.phone !== 0) {
+        if (isValid) {
             setFormError('');
             await handleSavePerson(formData, setAlert);
         } else {
@@ -148,47 +137,12 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <TextField
-                                autoFocus
-                                margin="dense"
-                                name="phone"
-                                label="Teléfono"
-                                type="tel"
-                                fullWidth
-                                value={formData.phone || ''}
-                                onChange={handleChange}
-                                error={!!errors.phone}
-                            />
-                            {errors.phone && (
-                                <div className={classes.errorText}>
-                                    {errors.phone}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                margin="dense"
-                                name="identification"
-                                label="Identificación"
-                                type="tel"
-                                fullWidth
-                                value={formData.identification || ''} 
-                                onChange={handleChange}
-                                error={!!errors.identification}
-                            />
-                            {errors.identification && (
-                                <div className={classes.errorText}>
-                                    {errors.identification}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
                                 margin="dense"
                                 name="email"
                                 label="Correo electrónico"
                                 type="text"
                                 fullWidth
-                                value={formData.email ||''}
+                                value={formData.email || ''}
                                 onChange={handleChange}
                                 error={!!errors.email}
                             />
