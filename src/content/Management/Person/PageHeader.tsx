@@ -65,8 +65,50 @@ function PageHeader({ onAddPerson }) {
         email: Yup.string()
             .required('campo requerido*')
             .matches(/.*@.*\..*/, 'Ingrese un correo electrónico válido'),
-        password: Yup.string().required('campo requerido*'),
-        rol: Yup.string().required('Seleccione un rol')
+        rol: Yup.string().required('Seleccione un rol'),
+        password: Yup
+            .string()
+            .test(
+                'uppercase',
+                'La contraseña debe contener al menos una letra mayúscula',
+                (value) => {
+                    if (!value) return true;
+                    return /[A-Z]/.test(value);
+                }
+            )
+            .test(
+                'lowercase',
+                'La contraseña debe contener al menos una letra minúscula',
+                (value) => {
+                    if (!value) return true;
+                    return /[a-z]/.test(value);
+                }
+            )
+            .test(
+                'number',
+                'La contraseña debe contener al menos un número',
+                (value) => {
+                    if (!value) return true;
+                    return /\d/.test(value);
+                }
+            )
+            .test(
+                'special character',
+                'La contraseña debe contener al menos un carácter especial',
+                (value) => {
+                    if (!value) return true;
+                    return /[~`!@#$%^&*()_\-+={[}\]|:;"'<,>.?/]/.test(value);
+                }
+            )
+            .test(
+                'min length',
+                'La contraseña debe tener al menos 8 caracteres',
+                (value) => {
+                    if (!value) return true;
+                    return value.length >= 8;
+                }
+            )
+
     });
 
     const { errors, validate, resetErrors } = Validation(validationSchema);
@@ -131,9 +173,6 @@ function PageHeader({ onAddPerson }) {
         if (errorTimer) {
             clearTimeout(errorTimer);
         }
-        setErrorTimer(setTimeout(() => {
-            resetErrors();
-        }, 6000));
     };
 
     const user = {

@@ -82,9 +82,6 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
         if (errorTimer) {
             clearTimeout(errorTimer);
         }
-        setErrorTimer(setTimeout(() => {
-            resetErrors();
-        }, 6000));
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -108,7 +105,7 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                                 label="Nombres"
                                 type="text"
                                 fullWidth
-                                value={formData?.name || ''}
+                                value={formData.name || ''}
                                 onChange={handleChange}
                                 error={!!errors.name}
                             />
