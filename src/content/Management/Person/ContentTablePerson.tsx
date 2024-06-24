@@ -19,13 +19,14 @@ import {
   useTheme
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-
+import * as Yup from 'yup';
 import BulkActions from './BulkActions';
 import Cookies from 'js-cookie';
 import { LockSharp } from '@mui/icons-material';
 import DesactivatePersonModal from '@/components/modals/modal-person/DesactivatePersonModal';
 import EditPersonModal from '@/components/modals/modal-person/EditPersonModal';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import Toolbar from '@mui/material/Toolbar';
 import { Person } from '@/models/person';
 import Text from '@/components/Text';
 import api from '@/utils/api/api';
@@ -39,12 +40,12 @@ const useStyles = makeStyles({
   activeText: {
     backgroundColor: 'rgba(200, 230, 201, 0.5)',
     padding: '3px 8px',
-    borderRadius: 15,  
+    borderRadius: 15,
     display: 'inline-block',
-    color: '#07A81B',  
+    color: '#07A81B',
   },
   inactiveText: {
-    backgroundColor: 'rgba(255, 205, 210, 0.5)',  
+    backgroundColor: 'rgba(255, 205, 210, 0.5)',
     padding: '3px 8px',
     borderRadius: 15,
     display: 'inline-block',
@@ -56,6 +57,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedPersons, setSelectedSensors] = useState<string[]>([]);
+  const [openSearchResults, setOpenSearchResults] = useState(false);
   const selectedBulkActions = selectedPersons.length > 0;
   const [isModalOpen, setModalOpen] = useState(false);
   const [editPersonData, setEditPersonData] = useState<Person | null>(null);
@@ -71,7 +73,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   });
   let token = Cookies.get('token');
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
@@ -82,7 +84,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, person.length - page * rowsPerPage);
 
-  const handleSelectSensor = (sensorName) => {
+  const handleSelectPerson = (sensorName) => {
     setSelectedSensors((prevSelected) =>
       prevSelected.includes(sensorName)
         ? prevSelected.filter((name) => name !== sensorName)
@@ -109,7 +111,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
         setAlert({ message: 'Estado actualizado correctamente', severity: 'success', open: true });
         setTimeout(() => {
           setDesactivateModalOpen(false);
-        }, 2000);
+        }, 1000);
       }
     } catch (error) {
       setAlert({ message: 'Error al actualizar el estado', severity: 'error', open: true });
@@ -130,9 +132,10 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
       setAlert({ message: 'Usuario actualizado correctamente', severity: 'success', open: true });
       setTimeout(() => {
         setModalOpen(false);
-      }, 4000);
+      }, 1000);
     } catch (error) {
-      setAlert({ message: 'Error, Verifica la informacion por favor', severity: 'error', open: true });
+      console.error('Error al modificar el usuario:', error.message);
+      setAlert({ message: error.message, severity: 'error', open: true });
     }
   };
 
@@ -187,6 +190,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
           />
         </>
       )}
+      <br />
       <Divider />
       <TableContainer>
         <Table>
@@ -210,7 +214,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedPersons.includes(order.name)}
-                      onChange={() => handleSelectSensor(order.name)}
+                      onChange={() => handleSelectPerson(order.name)}
                     />
                   </TableCell>
                   <TableCell>
@@ -269,13 +273,13 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                     </Typography>
                   </TableCell>
                   <TableCell>
-                  <Typography variant="body1">
-                  {order.status === 'activo' ? (
-                    <span className={classes.activeText}>Activo</span>
-                  ) : (
-                    <span className={classes.inactiveText}>Inactivo</span>
-                  )}
-                </Typography>
+                    <Typography variant="body1">
+                      {order.status === 'activo' ? (
+                        <span className={classes.activeText}>Activo</span>
+                      ) : (
+                        <span className={classes.inactiveText}>Inactivo</span>
+                      )}
+                    </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography
