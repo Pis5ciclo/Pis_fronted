@@ -61,6 +61,11 @@ const saveUser = async (data, token = "NONE") => {
         throw error;
     }
 }
+const saveSensor = async (data, token = "NONE") => {
+    const headers = createHeaders(token);
+    const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
+    return response.data;
+}
 
 const updateUser = async (data: any, external_id:string, token = "NONE") => {
     const headers = createHeaders(token);
@@ -89,6 +94,7 @@ const api ={
     listPerson,
     roles,
     saveUser,
+    saveSensor,
     updateUser,
     desactivateAccount,
     searchPerson

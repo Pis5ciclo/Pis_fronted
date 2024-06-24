@@ -21,8 +21,7 @@ export default function Login() {
         name: '',
         lastname: '',
         phone: '',
-        identification: '',
-        rol: ''
+        identification: ''
     });
 
     const handleSubmit = async (event) => {
@@ -42,6 +41,7 @@ export default function Login() {
     return (
         <>
             <Head>
+            <link rel="icon" href="/image/logo-unl.png" />
                 <title>Registro</title>
             </Head>
 

@@ -152,6 +152,7 @@ export default function Login() {
   return (
     <>
       <Head>
+        <link rel="icon" href="/image/logo-unl.png" />
         <title>Iniciar Sesión</title>
       </Head>
 
