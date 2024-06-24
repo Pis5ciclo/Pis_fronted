@@ -50,7 +50,20 @@ const roles = async (token = "NONE") => {
 }
 
 const saveUser = async (data, token = "NONE") => {
+    try {
+        const headers = createHeaders(token);
+        const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response.data;
+        }
+        throw error;
+    }
+}
+const saveSensor = async (data, token = "NONE") => {
     const headers = createHeaders(token);
+<<<<<<< HEAD
     try {
         const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
         return response.data;
@@ -61,6 +74,10 @@ const saveUser = async (data, token = "NONE") => {
             throw new Error('Error en la conexión al servidor');
         }
     }
+=======
+    const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
+    return response.data;
+>>>>>>> main
 }
 
 const updateUser = async (data: any, external_id:string, token = "NONE") => {
@@ -99,6 +116,7 @@ const api ={
     listPerson,
     roles,
     saveUser,
+    saveSensor,
     updateUser,
     desactivateAccount,
     searchPerson

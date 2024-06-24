@@ -12,6 +12,7 @@ function DashboardCrypto() {
   return (
     <>
       <Head>
+        <link rel="icon" href="/image/logo-unl.png" />
         <title>Monitoreo de agua y aire</title>
       </Head>
       <PageTitleWrapper>

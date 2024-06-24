@@ -1,6 +1,8 @@
 import { Container, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import AccountBalance from '@/content/Dashboards/Crypto/AccountBalance';
+import Cookies from 'js-cookie';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
 import InfoSensores from '@/content/Dashboards/Crypto/InfoSensores';
@@ -12,8 +14,17 @@ import { useRouter } from 'next/router';
 
 function DashboardCrypto() {
   const router = useRouter();
-  const { query } = router;
-  const userName = query.name || '';
+  const { name } = router.query;
+  const [userName, setUserName] = useState('');
+  useEffect(() => {
+    const storedName = Cookies.get('user'); // Lee el nombre del usuario de la cookie
+    if (typeof name === 'string') {
+      setUserName(name);
+      Cookies.set('user', name); // Actualiza la cookie si es necesario
+    } else if (storedName) {
+      setUserName(storedName); // Usa el nombre almacenado si no hay nombre en la URL
+    }
+  }, [name]);
   return (
     <>
       <Head>

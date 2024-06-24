@@ -1,20 +1,35 @@
 import { Container, Grid } from '@mui/material';
-
+import React, { useEffect, useState } from 'react';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
+import { Sensor } from '@/models/sensor';
 import PageHeader from '@/content/Management/Sensor/PageHeader';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import SidebarLayout from '@/layouts/SidebarLayout';
 import TableSensor from '@/content/Management/Sensor/TableSensor';
+import api from '@/utils/api/api';
 
 function ApplicationsTransactions() {
+    const [sensor, setSensor] = useState<Sensor[]>([]);
+    const fetchSensors = async () => {
+        const sensors = await api.listSensor();
+        setSensor(sensors);
+    };
+    useEffect(() => {
+        fetchSensors();  
+    }, []);
+
+    const handleAddSensor = async () => {
+        await fetchSensors();
+    };
     return (
         <>
             <Head>
+                <link rel="icon" href="/image/logo-unl.png" />
                 <title>Gestion sensores</title>
             </Head>
             <PageTitleWrapper>
-                <PageHeader />
+                <PageHeader onAddSensor={handleAddSensor} />
             </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Grid
