@@ -19,7 +19,7 @@ function TableSensor() {
   }, []);
   return (
     <Card>
-      <ContentTableSensor sensor={sensor} />
+      <ContentTableSensor sensor={sensor}/>
     </Card>
   );
 }

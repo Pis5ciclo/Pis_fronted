@@ -28,10 +28,11 @@ function ApplicationsTransactions() {
     return (
         <>
             <Head>
+                <link rel="icon" href="/image/logo-unl.png" />
                 <title>Gestion usuarios</title>
             </Head>
             <PageTitleWrapper>
-                <PageHeader onAddPerson={handleAddPerson}/>
+                <PageHeader onAddPerson={handleAddPerson} />
             </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Grid

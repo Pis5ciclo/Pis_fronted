@@ -8,7 +8,9 @@ import {
   styled
 } from '@mui/material';
 
-import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
+import { Sensors } from '@mui/icons-material';
+import { AssignmentInd } from '@mui/icons-material';
+import DataThresholdingIcon from '@mui/icons-material/DataThresholding'; 
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import CheckBoxTwoToneIcon from '@mui/icons-material/CheckBoxTwoTone';
 import NextLink from 'next/link';
@@ -182,7 +184,7 @@ function SidebarMenu() {
                 color='success'
                 fullWidth
                 variant='contained'
-                startIcon={<BrightnessLowTwoToneIcon />}
+                startIcon={<DataThresholdingIcon />}
               >
                 Simulacion de datos
               </Button>
@@ -208,7 +210,7 @@ function SidebarMenu() {
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
-                    startIcon={<BrightnessLowTwoToneIcon />}
+                    startIcon={<AssignmentInd />}
                   >
                     Gestion de usuarios
                   </Button>
@@ -223,7 +225,7 @@ function SidebarMenu() {
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
-                    startIcon={<BrightnessLowTwoToneIcon />}
+                    startIcon={<Sensors/>}
                   >
                     Gestion Sensores
                   </Button>
