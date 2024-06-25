@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
     lastname: Yup.string().required('campo requerido*'),
     email: Yup.string().email('Ingrese un correo válido').required('campo requerido*'),
 });
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     errorText: {
         color: 'red',
         fontSize: '0.7rem',
