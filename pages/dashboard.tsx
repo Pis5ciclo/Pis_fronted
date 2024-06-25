@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
 import InfoSensores from '@/content/Dashboards/Crypto/InfoSensores';
-import PageHeader from '@/content/Dashboards/Crypto/PageHeader';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
 import SidebarLayout from '@/layouts/SidebarLayout';
@@ -28,11 +27,12 @@ function DashboardCrypto() {
   return (
     <>
       <Head>
+        <link rel="icon" href="/image/logo-unl.png" />
         <title>Página Principal</title>
       </Head>
-        <PageTitleWrapper>
-          <PageWelcomeUser userName={userName} />
-        </PageTitleWrapper>
+      <PageTitleWrapper>
+        <PageWelcomeUser userName={userName} />
+      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container

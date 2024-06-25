@@ -26,7 +26,7 @@ function ApplicationsTransactions() {
         <>
             <Head>
                 <link rel="icon" href="/image/logo-unl.png" />
-                <title>Gestion sensores</title>
+                <title>Gestión sensores</title>
             </Head>
             <PageTitleWrapper>
                 <PageHeader onAddSensor={handleAddSensor} />
@@ -40,7 +40,7 @@ function ApplicationsTransactions() {
                     spacing={3}
                 >
                     <Grid item xs={12}>
-                        <TableSensor />
+                        <TableSensor sensor={sensor} setSensor={setSensor}/>
                     </Grid>
                 </Grid>
             </Container>

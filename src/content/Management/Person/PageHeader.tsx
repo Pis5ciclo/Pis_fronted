@@ -5,6 +5,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import AlertMessage from '@/utils/api/utilities/Alert';
 import Cookies from 'js-cookie';
 import api from '@/utils/api/api';
+import { useRouter } from 'next/router';
 
 interface AlertState {
     message: string;
@@ -34,7 +35,9 @@ function PageHeader({ onAddPerson }) {
     };
 
     const [formData, setFormData] = useState(initialState);
-
+    const router = useRouter();
+    const { name } = router.query;
+    const [userName, setUserName] = useState('');
     useEffect(() => {
         const fetchRoles = async () => {
             try {
@@ -45,17 +48,24 @@ function PageHeader({ onAddPerson }) {
             }
         };
         fetchRoles();
+        const storedName = Cookies.get('user'); // Lee el nombre del usuario de la cookie
+        if (typeof name === 'string') {
+            setUserName(name);
+            Cookies.set('user', name); // Actualiza la cookie si es necesario
+        } else if (storedName) {
+            setUserName(storedName); // Usa el nombre almacenado si no hay nombre en la URL
+        }
     }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-            const response = await api.saveUser(formData, token);
-            console.log('Usuario guardado:', response);
-            setAlert({ message: 'Usuario registrado exitosamente', severity: 'success', open: true });
-            onAddPerson()
-            setTimeout(() => {
-                handleClose();
-            }, 2000);
+        const response = await api.saveUser(formData, token);
+        console.log('Usuario guardado:', response);
+        setAlert({ message: 'Usuario registrado exitosamente', severity: 'success', open: true });
+        onAddPerson()
+        setTimeout(() => {
+            handleClose();
+        }, 2000);
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -64,18 +74,14 @@ function PageHeader({ onAddPerson }) {
             [name]: value
         }));
     };
-    const user = {
-        name: 'Catherine Pike',
-        avatar: '/static/images/avatars/1.jpg'
-    };
     return (
         <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
                 <Typography variant="h3" component="h3" gutterBottom>
-                    Administracion de usuarios
+                    Administración de usuarios
                 </Typography>
                 <Typography variant="subtitle2">
-                    {user.name}, these are your recent transactions
+                    {userName}, estas son tus transacciones
                 </Typography>
             </Grid>
             <Grid item>

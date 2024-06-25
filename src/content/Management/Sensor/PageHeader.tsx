@@ -1,9 +1,10 @@
-import { Button, Dialog, DialogActions, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
 import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import AlertMessage from '@/utils/api/utilities/Alert';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import api from '@/utils/api/api';
 
 interface AlertState {
@@ -33,10 +34,6 @@ function PageHeader({onAddSensor}) {
         setAlert({ message: '', severity: 'success', open: false });
     };
     const [formData, setFormData] = useState(initialState);
-    const user = {
-        name: 'Catherine Pike',
-        avatar: '/static/images/avatars/1.jpg'
-    };
     const handleSubmit = async (event) => {
         event.preventDefault();
         const response = await api.saveSensor(formData, token);
@@ -54,6 +51,18 @@ function PageHeader({onAddSensor}) {
             [name]: value
         }));
     };
+    const router = useRouter();
+    const { name } = router.query;
+    const [userName, setUserName] = useState('');
+    useEffect(() => {
+        const storedName = Cookies.get('user'); // Lee el nombre del usuario de la cookie
+        if (typeof name === 'string') {
+            setUserName(name);
+            Cookies.set('user', name); // Actualiza la cookie si es necesario
+        } else if (storedName) {
+            setUserName(storedName); // Usa el nombre almacenado si no hay nombre en la URL
+        }
+    }, []);
 
     return (
         <Grid container justifyContent="space-between" alignItems="center">
@@ -62,7 +71,7 @@ function PageHeader({onAddSensor}) {
                     Administración de sensores
                 </Typography>
                 <Typography variant="subtitle2">
-                    {user.name}, these are your recent transactions
+                    {userName}, estas son tus transacciones
                 </Typography>
             </Grid>
             <Grid item>
