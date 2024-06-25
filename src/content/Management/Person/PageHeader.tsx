@@ -26,6 +26,7 @@ function PageHeader({ onAddPerson }) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [alert, setAlert] = useState<AlertState>({ message: '', severity: 'success', open: false });
+    let token = Cookies.get('token_person');
     const [isFormValid, setIsFormValid] = useState(false);
     const [isRolSelected, setIsRolSelected] = useState(false);
     const [errorTimer, setErrorTimer] = useState(null);
@@ -109,7 +110,7 @@ function PageHeader({ onAddPerson }) {
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await api.roles();
+                const response = await api.roles(token);
                 setRolesOptions(response);
             } catch (error) {
                 console.error('Error fetching roles:', error);

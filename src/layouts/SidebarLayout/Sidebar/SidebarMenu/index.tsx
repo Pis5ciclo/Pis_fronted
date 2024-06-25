@@ -8,15 +8,13 @@ import {
   styled
 } from '@mui/material';
 
-import { Sensors } from '@mui/icons-material';
 import { AssignmentInd } from '@mui/icons-material';
-import DataThresholdingIcon from '@mui/icons-material/DataThresholding'; 
 import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
 import CheckBoxTwoToneIcon from '@mui/icons-material/CheckBoxTwoTone';
+import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import NextLink from 'next/link';
-import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
+import { Sensors } from '@mui/icons-material';
 import { SidebarContext } from 'src/contexts/SidebarContext';
-import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
 import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
 import { useContext } from 'react';
 import { useRouter } from 'next/router';
@@ -231,31 +229,18 @@ function SidebarMenu() {
                   </Button>
                 </NextLink>
               </ListItem>
-            </List>
-          </SubMenuWrapper>
-        </List>
-        <List
-          component="div"
-          subheader={
-            <ListSubheader component="div" disableSticky>
-              Components
-            </ListSubheader>
-          }
-        >
-          <SubMenuWrapper>
-            <List component="div">
               <ListItem component="div">
-                <NextLink href="/components/avatars" passHref>
+                <NextLink href="/mapa" passHref>
                   <Button
                     className={
-                      currentRoute === '/components/avatars' ? 'active' : ''
+                      currentRoute === '/mapa' ? 'active' : ''
                     }
                     disableRipple
                     component="a"
                     onClick={closeSidebar}
-                    startIcon={<RedeemTwoToneIcon />}
+                    startIcon={<Sensors/>}
                   >
-                    Avatars
+                    Ubicacion de sensores
                   </Button>
                 </NextLink>
               </ListItem>

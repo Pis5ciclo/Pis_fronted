@@ -82,18 +82,15 @@ export default function Login() {
   });
 
   useEffect(() => {
-    const token = Cookies.get('token_person');
-    const role = Cookies.get('role');
-    const storedUser = Cookies.get('user');
-    console.log("Contenido de la cookie 'user':", storedUser);
-    if (token) {
-      if (role === 'Administrador') {
+    const checkAuthToken = () => {
+      const token = Cookies.get('token_person');
+      const storedUser = Cookies.get('user');
+      if (token && storedUser) {
         router.push('/dashboard');
-      } else {
-        router.push('/');
       }
     }
-  }, [router]);
+    checkAuthToken();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -104,7 +101,7 @@ export default function Login() {
       Cookies.set('token_person', token);
       Cookies.set('user', user);
 
-      if (role ===  'Administrador' ) {
+      if (role === 'Administrador') {
         router.push(`/dashboard?name=${user}`);
       } else {
         router.push(`/?name=${user}`);
@@ -265,7 +262,7 @@ export default function Login() {
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="/forgot-password" variant="body2">
+                    <Link href="#" variant="body2">
                       Forgot password?
                     </Link>
                   </Grid>

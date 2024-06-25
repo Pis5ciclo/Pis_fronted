@@ -1,7 +1,10 @@
 import * as Yup from 'yup';
 
-import { Button, Dialog, Alert, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+
+import AlertMessage from '@/utils/api/utilities/Alert';
+import Cookies from 'js-cookie';
 import { Person } from '@/models/person';
 import Validation from '@/utils/api/utilities/Validation';
 import api from '@/utils/api/api';
@@ -28,6 +31,7 @@ const useStyles = makeStyles(theme => ({
 const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, person, handleSave }) => {
     const [rolesOptions, setRolesOptions] = useState([]);
     const classes = useStyles();
+    let token = Cookies.get('token_person');
     const [errorTimer, setErrorTimer] = useState(null);
     const [formData, setFormData] = useState<Person>({
         external_id: '',
@@ -50,7 +54,7 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await api.roles();
+                const response = await api.roles(token);
                 setRolesOptions(response);
             } catch (error) {
                 console.error('Error fetching roles:', error);
