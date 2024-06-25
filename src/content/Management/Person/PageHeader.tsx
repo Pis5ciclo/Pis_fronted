@@ -233,7 +233,7 @@ function PageHeader({ onAddPerson }) {
                                         margin="dense"
                                         id="email"
                                         label="Correo Electrónico"
-                                        type="email"
+                                        type="text"
                                         name='email'
                                         fullWidth
                                         value={formData.email || ''}
