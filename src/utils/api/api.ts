@@ -20,7 +20,7 @@ const login = async (data, token = "NONE") => {
     const response = await axios.post(`${apiUrl}/login`, data, { headers });
     return response.data;
 };
-const listSensor = async (token = "NONE") => {
+const listSensor = async (token: string) => {
     const headers = createHeaders(token);
     try {
         const response = await axios.get(`${apiUrl}/list_sensor`, { headers });
@@ -31,7 +31,7 @@ const listSensor = async (token = "NONE") => {
         }
     }
 };
-const listPerson = async (token = "NONE") => {
+const listPerson = async (token: string) => {
     const headers = createHeaders(token);
     try {
         const response = await axios.get(`${apiUrl}/person/account`, { headers });
@@ -43,30 +43,31 @@ const listPerson = async (token = "NONE") => {
     }
 };
 
-const roles = async (token = "NONE") => {
+const roles = async (token: string) => {
     const headers = createHeaders(token);
     const response = await axios.get(`${apiUrl}/roles`, { headers });
     return response.data.data;
 }
 
-const saveSensor = async (data, token = "NONE") => {
+const saveUser = async (data, token: string) => {
     const headers = createHeaders(token);
     try {
         const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data.error);
+        if (error.response && error.response.data && error.response.data.error) {
+            throw new Error(error.response.data.error); 
+        } else if (error.message === 'Network Error') {
+            throw new Error('Error en conexión al servidor'); 
         } else {
-            throw new Error('Error en conexión al servidor');
+            throw new Error('Error desconocido al conectar con el servidor');
         }
     }
 }
-
-const saveUser = async (data, token = "NONE") => {
+const saveSensor = async (data, token: string) => {
     const headers = createHeaders(token);
     try {
-        const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+        const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -77,28 +78,24 @@ const saveUser = async (data, token = "NONE") => {
     }
 }
 
-const updateUser = async (data: any, external_id:string, token = "NONE") => {
+const updateUser = async (data: any, external_id:string, token: string) => {
     const headers = createHeaders(token);
-
-    try{
+    try {
         const response = await axios.post(`${apiUrl}/modify_person/${external_id}`, data, { headers });
         return response.data;
-    }catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data.error);
-        } else {
-            throw new Error('Error en la conexión al servidor');
-        }
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
     }
 }
 
-const desactivateAccount = async (external_id:string, token = "NONE") => {
+const desactivateAccount = async (external_id:string, token: string) => {
     const headers = createHeaders(token);
     const response = await axios.get(`${apiUrl}/deactivate_person/${external_id}`, { headers });
     return response.data;
 }
 
-const searchPerson = async (atribute, token = "NONE") => {
+const searchPerson = async (atribute, token: string) => {
     const headers = createHeaders(token);
     const response = await axios.get(`${apiUrl}/search/person`, {
         headers,

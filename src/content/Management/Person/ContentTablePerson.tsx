@@ -68,7 +68,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
     severity: 'success',
     open: false
   });
-  let token = Cookies.get('token');
+  let token = Cookies.get('token_person');
 
   const handleChangePage = (newPage) => {
     setPage(newPage);
@@ -122,7 +122,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   };
   const handleSave = async (updatedPerson: Person, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => {
     try {
-      const response = await api.updateUser(updatedPerson, updatedPerson.external_id, token);
+      await api.updateUser(updatedPerson, updatedPerson.external_id, token);
       setPerson((prevPerson) =>
         prevPerson.map((p) => (p.external_id === updatedPerson.external_id ? updatedPerson : p))
       );
