@@ -52,7 +52,7 @@ const roles = async (token = "NONE") => {
 const saveSensor = async (data, token = "NONE") => {
     const headers = createHeaders(token);
     try {
-        const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+        const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
