@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+
 import { Alert, Button, Dialog, DialogActions, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 
@@ -78,12 +80,18 @@ function PageHeader({ onAddPerson }) {
         };
         fetchRoles();
     }, [token]);
-    
+    const schema = Yup.object().shape({
+        name: Yup.string().required('Campo requerido*'),
+        lastname: Yup.string().required('Campo requerido*'),
+        rol: Yup.string().required('Campo requerido*'),
+        email: Yup.string().email('Email inválido').required('Campo requerido*'),
+        password: Yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('Campo requerido*')
+    });
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         try {
-            await validationSchema.validate(formData, { abortEarly: false });
+            await schema.validate(formData, { abortEarly: false });
 
             const response = await api.saveUser(formData, token);
             console.log('Usuario guardado:', response);
