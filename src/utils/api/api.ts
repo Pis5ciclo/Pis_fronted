@@ -50,21 +50,24 @@ const roles = async (token: string) => {
 }
 
 const saveUser = async (data, token: string) => {
+    const headers = createHeaders(token);
     try {
         const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
         return response.data;
     } catch (error) {
-        if (error.response && error.response.data) {
-            throw new Error(error.response.data.error);
+        if (error.response && error.response.data && error.response.data.error) {
+            throw new Error(error.response.data.error); 
+        } else if (error.message === 'Network Error') {
+            throw new Error('Error en conexión al servidor'); 
         } else {
-            throw new Error('Error en conexión al servidor');
+            throw new Error('Error desconocido al conectar con el servidor');
         }
     }
 }
 const saveSensor = async (data, token: string) => {
     const headers = createHeaders(token);
     try {
-        const response = await axios.post(`${apiUrl}/person/save`, data, { headers });
+        const response = await axios.post(`${apiUrl}/sensor/save`, data, { headers });
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {

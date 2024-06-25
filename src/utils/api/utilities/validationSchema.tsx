@@ -1,4 +1,3 @@
-// validationSchema.js
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -10,7 +9,7 @@ const validationSchema = Yup.object().shape({
     rol: Yup.string().required('Campo requerido'),
     email: Yup.string().email('Email inválido').required('Campo requerido'),
     status: Yup.string().required('Campo requerido'),
-    password: Yup.string().required('Campo requerido')
+    password: Yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').required('Campo requerido')
 });
 
 export default validationSchema;

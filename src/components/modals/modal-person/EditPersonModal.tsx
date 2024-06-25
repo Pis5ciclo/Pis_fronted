@@ -3,7 +3,6 @@ import * as Yup from 'yup';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-import AlertMessage from '@/utils/api/utilities/Alert';
 import Cookies from 'js-cookie';
 import { Person } from '@/models/person';
 import Validation from '@/utils/api/utilities/Validation';
@@ -25,7 +24,8 @@ const useStyles = makeStyles(theme => ({
     errorText: {
         color: 'red',
         fontSize: '0.7rem',
-        marginLeft: '0.30rem'
+        marginLeft: '0.30rem',
+        fontWeight: 'bold' 
     },
 }));
 const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, person, handleSave }) => {

@@ -1,6 +1,5 @@
 import Typography from '@mui/material/Typography';
 const renderMessage = ({ errors, fieldName }) => {
-    // Verificar si el campo está "sucio" y tiene errores
     if (errors[fieldName]) {
         return (
             <Typography variant="caption" style={{ fontSize: '0.8rem', textTransform: 'lowercase' }} color="error">
@@ -8,7 +7,6 @@ const renderMessage = ({ errors, fieldName }) => {
             </Typography>
         );
     }
-    // Si el campo no está "sucio" o no tiene errores, no mostrar ningún mensaje
     return null;
 };
 export {
