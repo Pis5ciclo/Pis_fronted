@@ -12,7 +12,6 @@ function TableSensor() {
     const fetchSensors = async () => {
       const sensors = await api.listSensor();
       setSensor(sensors);
-      console.log(sensors);
     };
 
     fetchSensors();

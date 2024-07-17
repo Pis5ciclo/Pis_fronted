@@ -53,11 +53,11 @@ function Sidebar() {
         }}
       >
         <Scrollbar>
-          <Box mt={3}>
+          <Box mt={2} height={55}>
             <Box
-              mx={2}
+              mx={3}
               sx={{
-                width: 52
+                margin: 'auto'
               }}
             >
               <Logo />
@@ -110,11 +110,11 @@ function Sidebar() {
           }}
         >
           <Scrollbar>
-            <Box mt={3}>
+            <Box mt={2} height={55}>
               <Box
-                mx={2}
+                mx={3}
                 sx={{
-                  width: 52
+                  margin: 'auto'
                 }}
               >
                 <Logo />

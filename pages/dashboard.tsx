@@ -1,15 +1,13 @@
 import { Container, Grid } from '@mui/material';
 
 import AccountBalance from '@/content/Dashboards/Crypto/AccountBalance';
-import AccountSecurity from '@/content/Dashboards/Crypto/AccountSecurity';
 import Footer from '@/components/Footer';
 import Head from 'next/head';
+import InfoDataSensor from '@/content/Dashboards/Crypto/InfoDataSensor';
 import PageHeader from '@/content/Dashboards/Crypto/PageHeader';
 import PageTitleWrapper from '@/components/PageTitleWrapper';
 import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
 import SidebarLayout from '@/layouts/SidebarLayout';
-import Wallets from '@/content/Dashboards/Crypto/Wallets';
-import WatchList from '@/content/Dashboards/Crypto/WatchList';
 import { useRouter } from 'next/router';
 
 function DashboardCrypto() {
@@ -35,14 +33,8 @@ function DashboardCrypto() {
           <Grid item xs={12}>
             <AccountBalance />
           </Grid>
-          <Grid item lg={8} xs={12}>
-            <Wallets />
-          </Grid>
-          <Grid item lg={4} xs={12}>
-            <AccountSecurity />
-          </Grid>
           <Grid item xs={12}>
-            <WatchList />
+            <InfoDataSensor />
           </Grid>
         </Grid>
       </Container>

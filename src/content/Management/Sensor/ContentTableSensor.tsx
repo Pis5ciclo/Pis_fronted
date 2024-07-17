@@ -55,7 +55,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
   };
 
   const theme = useTheme();
-  
+
   return (
     <Card>
       {selectedBulkActions && (
@@ -68,7 +68,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
           action={
             <Box width={150}>
               <FormControl fullWidth variant="outlined">
-                <TextField id="outlined-search" label="Search field" type="search"/>
+                <TextField id="outlined-search" label="Search field" type="search" />
               </FormControl>
             </Box>
           }
@@ -219,17 +219,17 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
       </TableContainer>
       <Box p={2}>
         <TablePagination
-            component="div"
-            count={sensor.length}
-            labelRowsPerPage="Filas por página:"
-            labelDisplayedRows={() => ''}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            rowsPerPageOptions={[5, 10, 25, 30]}
+          component="div"
+          count={sensor.length}
+          labelRowsPerPage="Filas por página:"
+          labelDisplayedRows={() => ''}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          rowsPerPageOptions={[5, 10, 25, 30]}
         />
-        </Box>
+      </Box>
     </Card>
   );
 };
