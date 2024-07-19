@@ -3,7 +3,6 @@ import {
   Card,
   CardHeader,
   Divider,
-  Grid,
   Table,
   TableBody,
   TableCell,
@@ -27,7 +26,7 @@ const ContentTableSimulation: React.FC<ContentTableSimulationProps> = ({ datasen
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
@@ -55,18 +54,14 @@ const ContentTableSimulation: React.FC<ContentTableSimulationProps> = ({ datasen
     <Card>
       <CardHeader
         action={
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} md={6} width={350}>
+          <Box width={150}>
               <TextField
-                fullWidth
-                variant="outlined"
-                margin="dense"
-                label="Buscar"
-                value={searchTerm}
+                id = "outlined-search"
+                label= "Búsqueda"
+                value = {searchTerm}
                 onChange={handleSearchChange}
               />
-            </Grid>
-          </Grid>
+          </Box>
         }
         title="Datos recolectados"
       />

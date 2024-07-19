@@ -16,7 +16,7 @@ import api from '@/utils/api/api';
 
 function AccountBalance() {
   const [sensorNames, setSensorNames] = useState([]);
-  const [selectedSensor, setSelectedSensor] = useState(1);
+  const [selectedSensor, setSelectedSensor] = useState();
 
   useEffect(() => {
     const fetchSensorNames = async () => {
@@ -32,8 +32,6 @@ function AccountBalance() {
   const handleCheckboxChange = (event, sensorId) => {
     if (event.target.checked) {
       setSelectedSensor(sensorId);
-    } else {
-      setSelectedSensor(0);
     }
   };
   return (
@@ -87,8 +85,8 @@ function AccountBalance() {
         </Grid>
         <Grid item xs={12} md={8} style={{ paddingLeft: '10px' }}>
           {selectedSensor === 1 && <SimulationAir1 />}
-          {selectedSensor === 2 && <SimulationAir2 />}
-          {selectedSensor === 3 && <SimulationWater />}
+          {selectedSensor === 3 && <SimulationAir2 />}
+          {selectedSensor === 2 && <SimulationWater />}
         </Grid>
       </Grid>
     </Card>
