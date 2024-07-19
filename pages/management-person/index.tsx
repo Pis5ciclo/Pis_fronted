@@ -1,5 +1,5 @@
 import { Container, Grid } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 import Footer from '@/components/Footer';
@@ -10,13 +10,25 @@ import { Person } from '@/models/person';
 import SidebarLayout from '@/layouts/SidebarLayout';
 import TablePerson from '@/content/Management/Person/TablePerson';
 import api from '@/utils/api/api';
+import { useRouter } from 'next/router';
 
 function ApplicationsTransactions() {
 
     const [person, setPerson] = useState<Person[]>([]);
-    let token = Cookies.get('token_person');
+    const router = useRouter();
+    const { name } = router.query;
+    const [userName, setUserName] = useState('');
+    useEffect(() => {
+        const storedName = Cookies.get('user');
+        if (typeof name === 'string') {
+            setUserName(name);
+            Cookies.set('user', name); 
+        } else if (storedName) {
+            setUserName(storedName); 
+        }
+    }, [name]);
     const fetchPersons = async () => {
-        const persons = await api.listPerson(token);
+        const persons = await api.listPerson();
         setPerson(persons);
     };
 
@@ -34,7 +46,7 @@ function ApplicationsTransactions() {
                 <title>Gestion usuarios</title>
             </Head>
             <PageTitleWrapper>
-                <PageHeader onAddPerson={handleAddPerson} />
+                <PageHeader onAddPerson={handleAddPerson} userName={userName}/>
             </PageTitleWrapper>
             <Container maxWidth="lg">
                 <Grid

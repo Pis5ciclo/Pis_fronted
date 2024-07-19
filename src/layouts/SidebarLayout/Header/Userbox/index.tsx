@@ -9,9 +9,11 @@ import {
 } from '@mui/material';
 import { useRef, useState } from 'react';
 
+import Cookies from 'js-cookie';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { styled } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -54,6 +56,11 @@ function HeaderUserbox({ userName }) {
     name: userName,
     avatar: AvatarComponent,
     jobtitle: 'Administrador'
+  };
+  const router = useRouter();
+  const handleLogout = () => {
+    Cookies.remove('token_person');
+    router.push('/');
   };
 
   const ref = useRef<any>(null);
@@ -110,7 +117,11 @@ function HeaderUserbox({ userName }) {
           </UserBoxText>
         </MenuUserBox>
         <Box sx={{ m: 1 }}>
-          <Button color="primary" fullWidth>
+          <Button
+            color="primary"
+            fullWidth
+            onClick={handleLogout}
+          >
             <LockOpenTwoToneIcon sx={{ mr: 1 }} />
             Cerrar Sesión
           </Button>

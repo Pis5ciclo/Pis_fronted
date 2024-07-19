@@ -105,6 +105,29 @@ const desactivateAccount = async (external_id:string, token = "NONE") => {
     return response.data;
 }
 
+const updateSensor = async (data: any, external_id:string, token: string) => {
+    const headers = createHeaders(token);
+    try {
+        const response = await axios.post(`${apiUrl}/modify_sensor/${external_id}`, data, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating sensor:', error);
+        throw error;
+    }
+}
+
+const desactivateSensor = async (external_id:string, token: string) => {
+    const headers = createHeaders(token);
+    const response = await axios.get(`${apiUrl}/sensor/status/${external_id}`, { headers });
+    return response.data;
+}
+
+const types = async (token: string) => {
+    const headers = createHeaders(token);
+    const response = await axios.get(`${apiUrl}/types`, { headers });
+    return response.data.data;
+}
+
 const api ={
     login,
     listSensor,
@@ -115,6 +138,9 @@ const api ={
     updateUser,
     desactivateAccount,
     listSensorName,
-    listDataSensor
+    listDataSensor,
+    types,
+    desactivateSensor,
+    updateSensor,
 }
 export default api
