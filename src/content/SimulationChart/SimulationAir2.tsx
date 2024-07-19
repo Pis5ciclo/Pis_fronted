@@ -52,7 +52,7 @@ function SimulationAir2() {
     useEffect(() => {
         const getSensorData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/simulacion'); // Ajusta la ruta de la API según tu backend
+                const response = await axios.get('http://localhost:5000/api/simulacion/3'); 
                 setSensorData(response.data);
             } catch (error) {
                 console.error('Error fetching sensor data:', error);
@@ -63,7 +63,7 @@ function SimulationAir2() {
     const fetchDataByDate = async () => {
         if (startDate && endDate) {
             try {
-                const response = await axios.get('http://localhost:5000/api/simulacion/date', {
+                const response = await axios.get('http://localhost:5000/api/simulacion/date/3', {
                     params: {
                         start_date: startDate.toISOString().split('T')[0],
                         end_date: endDate.toISOString().split('T')[0]
@@ -79,7 +79,7 @@ function SimulationAir2() {
     };
     const fetchInterpolacion = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/simulacion/interpolate')
+            const response = await axios.get('http://localhost:5000/api/simulacion/interpolate/3')
             setSensorData(response.data);
         } catch (error) {
             console.error('Error interpolating sensor data:', error);

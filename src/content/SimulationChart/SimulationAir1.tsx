@@ -52,7 +52,7 @@ function SimulationAir1() {
     useEffect(() => {
         const getSensorData = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/simulacion'); // Ajusta la ruta de la API según tu backend
+                const response = await axios.get('http://localhost:5000/api/simulacion/1'); // Ajusta la ruta de la API según tu backend
                 setSensorData(response.data);
             } catch (error) {
                 console.error('Error fetching sensor data:', error);
@@ -63,7 +63,7 @@ function SimulationAir1() {
     const fetchDataByDate = async () => {
         if (startDate && endDate) {
             try {
-                const response = await axios.get('http://localhost:5000/api/simulacion/date', {
+                const response = await axios.get('http://localhost:5000/api/simulacion/date/1', {
                     params: {
                         start_date: startDate.toISOString().split('T')[0],
                         end_date: endDate.toISOString().split('T')[0]
@@ -79,7 +79,7 @@ function SimulationAir1() {
     };
     const fetchInterpolacion = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/simulacion/interpolate')
+            const response = await axios.get('http://localhost:5000/api/simulacion/interpolate/1')
             setSensorData(response.data);
         } catch (error) {
             console.error('Error interpolating sensor data:', error);
@@ -224,7 +224,7 @@ function SimulationAir1() {
                     </Box>
                 </Box>
                 <Typography>
-                    <b>Valor normal: </b> <Text color="success"><b>0-1000</b></Text>
+                    <b>Valor normal: </b> <Text color="success"><b>0-400</b></Text>
                 </Typography>
                 <Typography>
                     <b>Valor contaminado: </b> <Text color="error"><b>1000-2100</b></Text>
