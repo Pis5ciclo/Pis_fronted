@@ -1,9 +1,9 @@
 import * as Yup from 'yup';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
-import AlertMessage from '@/utils/api/utilities/Alert';
+import Cookies from 'js-cookie';
 import { Person } from '@/models/person';
 import Validation from '@/utils/api/utilities/Validation';
 import api from '@/utils/api/api';
@@ -18,26 +18,25 @@ interface EditPersonModalProps {
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('campo requerido*'),
     lastname: Yup.string().required('campo requerido*'),
-    phone: Yup.string().required('campo requerido*'),
-    identification: Yup.string().required('campo requerido*'),
     email: Yup.string().email('Ingrese un correo válido').required('campo requerido*'),
 });
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     errorText: {
         color: 'red',
         fontSize: '0.7rem',
-        marginLeft: '0.30rem'
+        marginLeft: '0.30rem',
+        fontWeight: 'bold' 
     },
 }));
 const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, person, handleSave }) => {
     const [rolesOptions, setRolesOptions] = useState([]);
     const classes = useStyles();
+    let token = Cookies.get('token_person');
+    const [errorTimer, setErrorTimer] = useState(null);
     const [formData, setFormData] = useState<Person>({
         external_id: '',
         name: '',
         lastname: '',
-        phone: 0,
-        identification: '',
         rol: '',
         email: '',
         status: '',
@@ -55,7 +54,7 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await api.roles();
+                const response = await api.roles(token);
                 setRolesOptions(response);
             } catch (error) {
                 console.error('Error fetching roles:', error);
@@ -75,6 +74,10 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
+
+        if (errorTimer) {
+            clearTimeout(errorTimer);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -98,7 +101,7 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                                 label="Nombres"
                                 type="text"
                                 fullWidth
-                                value={formData?.name || ''}
+                                value={formData.name || ''}
                                 onChange={handleChange}
                                 error={!!errors.name}
                             />
@@ -123,41 +126,6 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                             {errors.lastname && (
                                 <div className={classes.errorText}>
                                     {errors.lastname}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                name="phone"
-                                label="Telefono"
-                                type="number"
-                                fullWidth
-                                value={formData.phone || ''}
-                                onChange={handleChange}
-                                error={!!errors.phone}
-                            />
-                            {errors.phone && (
-                                <div className={classes.errorText}>
-                                    {errors.phone}
-                                </div>
-                            )}
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <TextField
-                                margin="dense"
-                                name="identification"
-                                label="Identificacion"
-                                type="number"
-                                fullWidth
-                                value={formData.identification || ''}
-                                onChange={handleChange}
-                                error={!!errors.identification}
-                            />
-                            {errors.identification && (
-                                <div className={classes.errorText}>
-                                    {errors.identification}
                                 </div>
                             )}
                         </Grid>
@@ -196,13 +164,17 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                             </FormControl>
                         </Grid>
                     </Grid>
-                    <AlertMessage alert={alert} />
+                    {alert.open && (
+                        <Alert severity={alert.severity} onClose={() => setAlert({ ...alert, open: false })}>
+                            {alert.message}
+                        </Alert>
+                    )}
                     <DialogActions>
-                        <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
+                        <Button onClick={handleClose} variant='outlined' color='error'>
                             Cancelar
                         </Button>
-                        <Button type='submit' color="primary"sx={{ border: '1px solid blue' }}>
-                            Guardar
+                        <Button type="submit" color="primary" variant='outlined'>
+                            Registrar
                         </Button>
                     </DialogActions>
                 </form>

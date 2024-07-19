@@ -2,9 +2,7 @@ import {
   Box,
   Card,
   CardHeader,
-  Checkbox,
   Divider,
-  FormControl,
   IconButton,
   Table,
   TableBody,
@@ -13,31 +11,66 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  TextField,
   Tooltip,
   Typography,
   useTheme
 } from '@mui/material';
 
-import BulkActions from './BulkActions';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import Cookies from 'js-cookie';
+import DesactivateSensorModal from '@/components/modals/modal-sensor/DesactivateSensorModal';
+import EditSensorModal from '@/components/modals/modal-sensor/EditSensorModal';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { LockSharp } from '@mui/icons-material';
 import { Sensor } from '@/models/sensor';
+import api from '@/utils/api/api';
+import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 
 interface ContentTableSensorProps {
   sensor: Sensor[];
+  setSensor: React.Dispatch<React.SetStateAction<Sensor[]>>;
 }
+const useStyles = makeStyles({
+  activeText: {
+    backgroundColor: 'rgba(200, 230, 201, 0.5)',
+    padding: '3px 8px',
+    borderRadius: 15,
+    display: 'inline-block',
+    color: '#07A81B',
+  },
+  inactiveText: {
+    backgroundColor: 'rgba(255, 205, 210, 0.5)',
+    padding: '3px 8px',
+    borderRadius: 15,
+    display: 'inline-block',
+    color: '#FF5E40',
+  },
+});
 
-const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
+const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSensor }) => {
+  const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedSensors, setSelectedSensors] = useState<string[]>([]);
-  const selectedBulkActions = selectedSensors.length > 0;
+  const [isDesactivateModalOpen, setDesactivateModalOpen] = useState(false);
+  const [desactivateSensorData, setDesactivateSensorData] = useState<Sensor | null>(null);
+  const [editSensorData, setEditSensorData] = useState<Sensor | null>(null);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [formErrors, setFormErrors] = useState({
+    ip: '', 
+  });
 
+
+  const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error'; open: boolean }>({
+    message: '',
+    severity: 'success',
+    open: false
+  });
+  let token = Cookies.get('token_person');
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -46,46 +79,82 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, sensor.length - page * rowsPerPage);
 
-  const handleSelectSensor = (sensorName) => {
-    setSelectedSensors((prevSelected) =>
-      prevSelected.includes(sensorName)
-        ? prevSelected.filter((name) => name !== sensorName)
-        : [...prevSelected, sensorName]
-    );
+  //Modal desactivateSensor
+  const handleDesactivateClick = (selectedSensor: Sensor) => {
+    setDesactivateSensorData(selectedSensor);
+    setDesactivateModalOpen(true);
   };
+  const handleDesactivate = async () => {
+    try {
+      const response = await api.desactivateSensor(desactivateSensorData?.external_id, token);
+      if (response && response.data) {
+        const updatedSensors = sensor.map((p) => {
+          if (p.external_id === desactivateSensorData?.external_id) {
+            return { ...p, status: desactivateSensorData.status === 'activo' ? 'desactivo' : 'activo' };
+          }
+          return p;
+        });
+        setSensor(updatedSensors);
+        setAlert({ message: 'Estado actualizado correctamente', severity: 'success', open: true });
+        setTimeout(() => {
+          setDesactivateModalOpen(false);
+        }, 1000);
+      }
+    } catch (error) {
+      setAlert({ message: 'Error al actualizar el estado', severity: 'error', open: true });
+    }
+  };
+  //Modal EditSensor
+  const handleEditClick = (selectedSensor: Sensor) => {
+    setEditSensorData(selectedSensor);
+    setModalOpen(true);
+  };
+  const handleSave = async (updatedSensor: Sensor, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => {
+    setFormErrors({
+      ip: '',
+    });
+    try {
+      await api.updateSensor(updatedSensor, updatedSensor.external_id, token);
+      setSensor((prevSensor) =>
+        prevSensor.map((p) => (p.external_id === updatedSensor.external_id ? updatedSensor : p))
+      );
+      setAlert({ message: 'Sensor actualizado correctamente', severity: 'success', open: true });
+      setTimeout(() => {
+        setModalOpen(false);
+      }, 1000);
+    } catch (error) {
+      console.error('Error al modificar el sensor:', error); 
+      if (error.response && error.response.data && error.response.data.error === 'La IP ya está registrada') {
+        setFormErrors(prevState => ({
+          ...prevState,
+          ip: 'La IP ya está registrada',
+        }));
+        setAlert({ message: 'Ip repetida', severity: 'error', open: true });
+      } else {
+        setAlert({ message: 'Error al enviar el formulario', severity: 'error', open: true });
+      }
+    }
+  };
+
 
   const theme = useTheme();
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
-        <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <TextField id="outlined-search" label="Search field" type="search" />
-              </FormControl>
-            </Box>
-          }
-          title="SENSORES"
-        />
-      )}
+
+      <CardHeader
+        title="SENSORES"
+      />
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox"></TableCell>
               <TableCell>Nombre</TableCell>
               <TableCell>Tipo</TableCell>
               <TableCell>Latitude</TableCell>
               <TableCell>Longitude</TableCell>
-              <TableCell>direccion IP</TableCell>
+              <TableCell>dirección IP</TableCell>
               <TableCell>Estado</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
@@ -94,12 +163,6 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
             {sensor.length > 0 ? (
               sensor.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order, index) => (
                 <TableRow hover key={index}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedSensors.includes(order.name)}
-                      onChange={() => handleSelectSensor(order.name)}
-                    />
-                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -163,7 +226,11 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
                       gutterBottom
                       noWrap
                     >
-                      {order.status}
+                      {order.status === 'activo' ? (
+                        <span className={classes.activeText}>Activo</span>
+                      ) : (
+                        <span className={classes.inactiveText}>Inactivo</span>
+                      )}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -177,11 +244,12 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() => handleEditClick(order)}
                       >
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Eliminar Sensor" arrow>
+                    <Tooltip title="Cambiar Estado" arrow>
                       <IconButton
                         sx={{
                           '&:hover': { background: theme.colors.error.lighter },
@@ -189,11 +257,26 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor }) => {
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() => handleDesactivateClick(order)}
                       >
-                        <DeleteTwoToneIcon fontSize="small" />
+                        <LockSharp fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
+                  <EditSensorModal
+                    open={isModalOpen}
+                    handleClose={() => setModalOpen(false)}
+                    sensor={editSensorData}
+                    handleSave={handleSave}
+                  />
+                  <DesactivateSensorModal
+                    open={isDesactivateModalOpen}
+                    handleClose={() => setDesactivateModalOpen(false)}
+                    sensor={desactivateSensorData}
+                    handleDesactivate={handleDesactivate}
+                    alert={alert}
+                    setAlert={setAlert}
+                  />
                 </TableRow>
               ))
             ) : (

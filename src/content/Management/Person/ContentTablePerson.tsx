@@ -18,23 +18,41 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import BulkActions from './BulkActions';
 import Cookies from 'js-cookie';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import DesactivatePersonModal from '@/components/modals/modal-person/DesactivatePersonModal';
 import EditPersonModal from '@/components/modals/modal-person/EditPersonModal';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import { LockSharp } from '@mui/icons-material';
 import { Person } from '@/models/person';
+import Text from '@/components/Text';
 import api from '@/utils/api/api';
-import { useState } from 'react';
+import { makeStyles } from '@mui/styles';
 
 interface ContentTablePersonProps {
   person: Person[];
   setPerson: React.Dispatch<React.SetStateAction<Person[]>>;
 }
-
+const useStyles = makeStyles({
+  activeText: {
+    backgroundColor: 'rgba(200, 230, 201, 0.5)',
+    padding: '3px 8px',
+    borderRadius: 15,
+    display: 'inline-block',
+    color: '#07A81B',
+  },
+  inactiveText: {
+    backgroundColor: 'rgba(255, 205, 210, 0.5)',
+    padding: '3px 8px',
+    borderRadius: 15,
+    display: 'inline-block',
+    color: '#FF5E40',
+  },
+});
 const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPerson }) => {
+  const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [selectedPersons, setSelectedSensors] = useState<string[]>([]);
@@ -43,15 +61,17 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   const [editPersonData, setEditPersonData] = useState<Person | null>(null);
   const [isDesactivateModalOpen, setDesactivateModalOpen] = useState(false);
   const [desactivatePersonData, setDesactivatePersonData] = useState<Person | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredPersons, setFilteredPersons] = useState<Person[]>([]);
 
   const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error'; open: boolean }>({
     message: '',
     severity: 'success',
     open: false
   });
-  let token = Cookies.get('token');
+  let token = Cookies.get('token_person');
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (newPage) => {
     setPage(newPage);
   };
 
@@ -62,7 +82,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, person.length - page * rowsPerPage);
 
-  const handleSelectSensor = (sensorName) => {
+  const handleSelectPerson = (sensorName) => {
     setSelectedSensors((prevSelected) =>
       prevSelected.includes(sensorName)
         ? prevSelected.filter((name) => name !== sensorName)
@@ -81,7 +101,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
       if (response && response.data) {
         const updatedPersons = person.map((p) => {
           if (p.external_id === desactivatePersonData?.external_id) {
-            return { ...p, status: desactivatePersonData.status === 'activo' ? 'desactivo' : 'activo' };
+            return { ...p, status: desactivatePersonData.status === 'activo' ? 'desactivado' : 'activo' };
           }
           return p;
         });
@@ -89,7 +109,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
         setAlert({ message: 'Estado actualizado correctamente', severity: 'success', open: true });
         setTimeout(() => {
           setDesactivateModalOpen(false);
-        }, 2000);
+        }, 1000);
       }
     } catch (error) {
       setAlert({ message: 'Error al actualizar el estado', severity: 'error', open: true });
@@ -103,18 +123,39 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   };
   const handleSave = async (updatedPerson: Person, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => {
     try {
-      const response = await api.updateUser(updatedPerson, updatedPerson.external_id, token);
+      await api.updateUser(updatedPerson, updatedPerson.external_id, token);
       setPerson((prevPerson) =>
         prevPerson.map((p) => (p.external_id === updatedPerson.external_id ? updatedPerson : p))
       );
       setAlert({ message: 'Usuario actualizado correctamente', severity: 'success', open: true });
       setTimeout(() => {
         setModalOpen(false);
-      }, 4000);
+      }, 1000);
     } catch (error) {
-      setAlert({ message: 'Error, Verifica la informacion por favor', severity: 'error', open: true });
+      console.error('Error al modificar el usuario:', error.message);
+      setAlert({ message: error.message, severity: 'error', open: true });
     }
   };
+
+  //search Person
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  useEffect(() => {
+    const filterPersons = () => {
+      if (person.length > 0) {
+        const filtered = person.filter(p =>
+          p.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredPersons(filtered);
+      } else {
+        setFilteredPersons([]);
+      }
+    };
+
+    filterPersons();
+  }, [searchQuery, person]);
   const theme = useTheme();
 
   return (
@@ -128,16 +169,25 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
         <>
           <CardHeader
             action={
-              <Box width={150}>
-                <FormControl fullWidth variant="outlined">
-                  <TextField id="outlined-search" label="Search field" type="search" />
-                </FormControl>
+              <Box display="flex" alignItems="center" width={300}>
+                <Text color="black">Busqueda</Text>
+                <Box ml={1} flexGrow={1}>
+                  <FormControl fullWidth variant="outlined">
+                    <TextField
+                      id="outlined-search"
+                      label="Filtrar"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                    />
+                  </FormControl>
+                </Box>
               </Box>
             }
             title="LISTADO DE PERSONAS"
           />
         </>
       )}
+      <br />
       <Divider />
       <TableContainer>
         <Table>
@@ -146,9 +196,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
               <TableCell padding="checkbox"></TableCell>
               <TableCell>Nombres</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Telefono</TableCell>
-              <TableCell>Identificacion</TableCell>
-              <TableCell>email</TableCell>
+              <TableCell>Correo</TableCell>
               <TableCell>estado</TableCell>
               <TableCell>rol</TableCell>
               <TableCell>Acciones</TableCell>
@@ -156,12 +204,12 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
           </TableHead>
           <TableBody>
             {person.length > 0 ? (
-              person.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order, index) => (
-                <TableRow hover key={index} style={{ backgroundColor: order.status === 'desactivo' ? '#FFEAE6' : 'inherit' }}>
+              filteredPersons.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order, index) => (
+                <TableRow hover key={index}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedPersons.includes(order.name)}
-                      onChange={() => handleSelectSensor(order.name)}
+                      onChange={() => handleSelectPerson(order.name)}
                     />
                   </TableCell>
                   <TableCell>
@@ -194,41 +242,16 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                       gutterBottom
                       noWrap
                     >
-                      {order.phone}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {order.identification}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
                       {order.email}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-
-                      gutterBottom
-                      noWrap
-                    // style={{ color: order.status === 'desactivo' ? 'red' : 'inherit' }}
-                    >
-                      {order.status}
+                    <Typography variant="body1">
+                      {order.status === 'activo' ? (
+                        <span className={classes.activeText}>Activo</span>
+                      ) : (
+                        <span className={classes.inactiveText}>Inactivo</span>
+                      )}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -259,7 +282,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                       </IconButton>
                     </Tooltip>
                     {order.rol !== 'Administrador' && (
-                      <Tooltip title="Desactivar" arrow>
+                      <Tooltip title="Cambiar Estado" arrow>
                         <IconButton
                           sx={{
                             '&:hover': { background: theme.colors.error.lighter },
@@ -269,7 +292,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                           size="small"
                           onClick={() => handleDesactivateClick(order)}
                         >
-                          <DeleteTwoToneIcon fontSize="small" />
+                          <LockSharp fontSize="small" />
                         </IconButton>
                       </Tooltip>
                     )}
