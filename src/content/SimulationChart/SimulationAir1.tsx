@@ -185,13 +185,13 @@ function SimulationAir1() {
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                            label="Start Date"
+                            label="Fecha inicio"
                             value={startDate}
                             onChange={newValue => setStartDate(newValue)}
                             renderInput={(params) => <TextField {...params} sx={{ mr: 2 }} />}
                         />
                         <DatePicker
-                            label="End Date"
+                            label="Fecha Fin"
                             value={endDate}
                             onChange={newValue => setEndDate(newValue)}
                             renderInput={(params) => <TextField {...params} sx={{ mr: 2 }} />}
@@ -227,7 +227,7 @@ function SimulationAir1() {
                     <b>Valor normal: </b> <Text color="success"><b>0-400</b></Text>
                 </Typography>
                 <Typography>
-                    <b>Valor contaminado: </b> <Text color="error"><b>1000-2100</b></Text>
+                    <b>Valor contaminado: </b> <Text color="error"><b>400-1000</b></Text>
                 </Typography>
                 <Box
                     sx={{

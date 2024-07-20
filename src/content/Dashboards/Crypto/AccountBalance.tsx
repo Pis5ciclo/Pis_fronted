@@ -1,7 +1,7 @@
 import {
   Box,
   Card,
-  Checkbox,
+  Radio,
   FormControl,
   FormControlLabel,
   Grid,
@@ -74,7 +74,7 @@ function AccountBalance() {
                   {sensorNames.map((sensor, index) => (
                     <FormControlLabel
                       key={index}
-                      control={<Checkbox color='success' checked={selectedSensor === sensor.id} />}
+                      control={<Radio color='success' checked={selectedSensor === sensor.id} />}
                       label={sensor.name}
                       onChange={(event) => handleCheckboxChange(event, sensor.id)}
                     />

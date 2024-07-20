@@ -19,8 +19,6 @@ import {
   useTheme
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-
-import BulkActions from './BulkActions';
 import Cookies from 'js-cookie';
 import DesactivatePersonModal from '@/components/modals/modal-person/DesactivatePersonModal';
 import EditPersonModal from '@/components/modals/modal-person/EditPersonModal';
@@ -55,8 +53,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selectedPersons, setSelectedSensors] = useState<string[]>([]);
-  const selectedBulkActions = selectedPersons.length > 0;
   const [isModalOpen, setModalOpen] = useState(false);
   const [editPersonData, setEditPersonData] = useState<Person | null>(null);
   const [isDesactivateModalOpen, setDesactivateModalOpen] = useState(false);
@@ -71,7 +67,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   });
   let token = Cookies.get('token_person');
 
-  const handleChangePage = (newPage) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
@@ -82,15 +78,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, person.length - page * rowsPerPage);
 
-  const handleSelectPerson = (sensorName) => {
-    setSelectedSensors((prevSelected) =>
-      prevSelected.includes(sensorName)
-        ? prevSelected.filter((name) => name !== sensorName)
-        : [...prevSelected, sensorName]
-    );
-  };
-
-  //Modal desactivateAccount
   const handleDesactivateClick = (selectedPerson: Person) => {
     setDesactivatePersonData(selectedPerson);
     setDesactivateModalOpen(true);
@@ -160,12 +147,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
 
   return (
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
         <>
           <CardHeader
             action={
@@ -186,14 +167,12 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
             title="LISTADO DE PERSONAS"
           />
         </>
-      )}
       <br />
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox"></TableCell>
               <TableCell>Nombres</TableCell>
               <TableCell>Apellidos</TableCell>
               <TableCell>Correo</TableCell>
@@ -206,12 +185,6 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
             {person.length > 0 ? (
               filteredPersons.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order, index) => (
                 <TableRow hover key={index}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedPersons.includes(order.name)}
-                      onChange={() => handleSelectPerson(order.name)}
-                    />
-                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
