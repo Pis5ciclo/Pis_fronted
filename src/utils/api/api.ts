@@ -125,7 +125,7 @@ const desactivateSensor = async (external_id:string, token: string) => {
 const types = async (token: string) => {
     const headers = createHeaders(token);
     const response = await axios.get(`${apiUrl}/types`, { headers });
-    return response.data.data;
+    return response.data;
 }
 
 const api ={
