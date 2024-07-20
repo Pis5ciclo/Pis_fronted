@@ -51,7 +51,6 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [selectedSensors, setSelectedSensors] = useState<string[]>([]);
   const [isDesactivateModalOpen, setDesactivateModalOpen] = useState(false);
   const [desactivateSensorData, setDesactivateSensorData] = useState<Sensor | null>(null);
   const [editSensorData, setEditSensorData] = useState<Sensor | null>(null);
@@ -136,7 +135,6 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
     }
   };
 
-
   const theme = useTheme();
 
   return (
@@ -152,9 +150,9 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
             <TableRow>
               <TableCell>Nombre</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>Latitude</TableCell>
-              <TableCell>Longitude</TableCell>
-              <TableCell>dirección IP</TableCell>
+              <TableCell>Latitud</TableCell>
+              <TableCell>Longitud</TableCell>
+              <TableCell>Dirección IP</TableCell>
               <TableCell>Estado</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>

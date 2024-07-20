@@ -26,7 +26,7 @@ const ContentTableSimulation: React.FC<ContentTableSimulationProps> = ({ datasen
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleChangePage = (newPage) => {
+  const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
