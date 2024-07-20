@@ -72,7 +72,7 @@ const schema = yup.object().shape({
 export default function Login() {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState({});
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [loginError, setLoginError] = useState('');
   const [formData, setFormData] = useState({
@@ -81,44 +81,41 @@ export default function Login() {
   });
 
   useEffect(() => {
-    const token = Cookies.get('token_person');
-    const role = Cookies.get('role');
-    const storedUser = Cookies.get('user');
-    if (token && role) {
-      if (role === '1') {
+    const checkAuthToken = () => {
+      const token = Cookies.get('token_person');
+      const storedUser = Cookies.get('user');
+      if (token && storedUser) {
         router.push('/dashboard');
-      } else {
-        router.push('/');
       }
     }
-  }, [router]);
+    checkAuthToken();
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await api.login(formData);
-      const { token, user, role } = response.data;
+      const { token, user, role } = response;
 
       Cookies.set('token_person', token);
       Cookies.set('user', user);
-      Cookies.set('role', role);
 
-      if (role === 1) {
-        router.push(`/dashboard?name=${user}`)
+      if (role === 'Administrador') {
+        router.push(`/dashboard?name=${user}`);
       } else {
         router.push(`/?name=${user}`);
       }
     } catch (error) {
-      if (error.response) {
-        setLoginError('Credenciales incorrectas. Por favor, intente nuevamente.');
-      } else if (error.request) {
-        router.push('/status/500');
+      console.log(error);
+      if (error.response && error.response.data && error.response.data.error) {
+        setLoginError(error.response.data.error);
       } else {
-        setLoginError('Ocurrió un error inesperado. Por favor, intente nuevamente.');
+        setLoginError('Error desconocido. Por favor, inténtelo de nuevo.');
       }
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
       ...formData,
@@ -153,6 +150,7 @@ export default function Login() {
         <link rel="icon" href="/image/logo-unl.png" />
         <title>Iniciar Sesión</title>
       </Head>
+
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid

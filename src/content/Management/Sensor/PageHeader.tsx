@@ -8,6 +8,7 @@ import AlertMessage from '@/utils/api/utilities/Alert';
 import Cookies from 'js-cookie';
 import MapUbication from '@/components/Map/MapUbication';
 import api from '@/utils/api/api';
+
 interface AlertState {
     message: string;
     severity: 'success' | 'error';
