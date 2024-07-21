@@ -43,7 +43,7 @@ function ApplicationsTransactions() {
         <>
             <Head>
                 <link rel="icon" href="/image/logo-unl.png" />
-                <title>Gestion usuarios</title>
+                <title>Gestión usuarios</title>
             </Head>
             <PageTitleWrapper>
                 <PageHeader onAddPerson={handleAddPerson} userName={userName}/>

@@ -25,6 +25,7 @@ import { Sensor } from '@/models/sensor';
 import api from '@/utils/api/api';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 interface ContentTableSensorProps {
   sensor: Sensor[];
@@ -59,6 +60,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
   const [formErrors, setFormErrors] = useState({
     ip: '', 
   });
+  const router = useRouter();
 
 
   const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error'; open: boolean }>({
@@ -131,7 +133,8 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
         }));
         setAlert({ message: 'Ip repetida', severity: 'error', open: true });
       } else {
-        setAlert({ message: 'Error al enviar el formulario', severity: 'error', open: true });
+        router.push('/status/500');
+        setAlert({ message: 'Error del servidor', severity: 'error', open: true });
       }
     }
   };
@@ -152,9 +155,9 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
             <TableRow>
               <TableCell>Nombre</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell>Latitude</TableCell>
-              <TableCell>Longitude</TableCell>
-              <TableCell>dirección IP</TableCell>
+              <TableCell>Latitud</TableCell>
+              <TableCell>Longitud</TableCell>
+              <TableCell>Dirección IP</TableCell>
               <TableCell>Estado</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
