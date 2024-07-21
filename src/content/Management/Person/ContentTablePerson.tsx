@@ -176,8 +176,8 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
               <TableCell>Nombres</TableCell>
               <TableCell>Apellidos</TableCell>
               <TableCell>Correo</TableCell>
-              <TableCell>estado</TableCell>
-              <TableCell>rol</TableCell>
+              <TableCell>Estado</TableCell>
+              <TableCell>Rol</TableCell>
               <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>

@@ -177,7 +177,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
                       gutterBottom
                       noWrap
                     >
-                      {order.type_sensor.name}
+                      {order.type_sensor}
                     </Typography>
                   </TableCell>
                   <TableCell>
