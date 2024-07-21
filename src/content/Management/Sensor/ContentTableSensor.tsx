@@ -59,7 +59,6 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
     ip: '', 
   });
 
-
   const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error'; open: boolean }>({
     message: '',
     severity: 'success',
@@ -70,7 +69,6 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
     setPage(newPage);
   };
 
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -78,7 +76,6 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, sensor.length - page * rowsPerPage);
 
-  //Modal desactivateSensor
   const handleDesactivateClick = (selectedSensor: Sensor) => {
     setDesactivateSensorData(selectedSensor);
     setDesactivateModalOpen(true);
@@ -180,7 +177,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
                       gutterBottom
                       noWrap
                     >
-                      {order.type_sensor.name}
+                      {order.type_sensor}
                     </Typography>
                   </TableCell>
                   <TableCell>

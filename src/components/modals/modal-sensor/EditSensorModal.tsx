@@ -2,7 +2,6 @@ import * as Yup from 'yup';
 
 import { Button, Dialog, DialogActions, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-
 import AlertMessage from '@/utils/api/utilities/Alert';
 import Cookies from 'js-cookie';
 import MapUbication from '@/components/Map/MapUbication';
@@ -150,11 +149,8 @@ const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, se
                                     onChange={(event) => handleChange(event as React.ChangeEvent<{ name?: string; value: unknown }>)}
                                     error={!!formErrors.type_sensor}
                                 >
-                                    {typesOptions.map((option, index) => (
-                                        <MenuItem key={index} value={option.name}>
-                                            {option.name}
-                                        </MenuItem>
-                                    ))}
+                                        <MenuItem value = {"AGUA"} >Agua</MenuItem>
+                                        <MenuItem value = {"AIRE"} >Aire</MenuItem>
                                 </Select>
                                 {formErrors.type_sensor && (
                                     <Typography variant="caption" color="error" style={{
@@ -164,7 +160,7 @@ const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, se
                                         marginTop: '0.0rem',
                                         textTransform: 'none',
                                     }}>
-                                        {formErrors.type_sensor.name}
+                                        {formErrors.type_sensor}
                                     </Typography>
                                 )}
                             </FormControl>
