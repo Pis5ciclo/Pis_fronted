@@ -57,7 +57,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
   const [editSensorData, setEditSensorData] = useState<Sensor | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [formErrors, setFormErrors] = useState({
-    ip: '', 
+    ip: '',
   });
   const router = useRouter();
 
@@ -112,7 +112,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
   };
   const handleSave = async (updatedSensor: Sensor, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => {
     setFormErrors({
-      ip: '',
+      ip: '', 
     });
     try {
       await api.updateSensor(updatedSensor, updatedSensor.external_id, token);
@@ -124,13 +124,18 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
         setModalOpen(false);
       }, 1000);
     } catch (error) {
-      console.error('Error al modificar el sensor:', error); 
+      console.error('Error al modificar el sensor:', error.response.data.error);
       if (error.response && error.response.data && error.response.data.error === 'La IP ya está registrada') {
         setFormErrors(prevState => ({
           ...prevState,
           ip: 'La IP ya está registrada',
         }));
-        setAlert({ message: 'Ip repetida', severity: 'error', open: true });
+        setTimeout(() => {
+          setFormErrors(prevState => ({
+            ...prevState,
+            ip: '',
+          }));
+        }, 3000);
       } else {
         router.push('/status/500');
         setAlert({ message: 'Error del servidor', severity: 'error', open: true });
@@ -269,6 +274,7 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
                     handleClose={() => setModalOpen(false)}
                     sensor={editSensorData}
                     handleSave={handleSave}
+                    formErrors2={formErrors} // Pasar el estado de errores como propiedad
                   />
                   <DesactivateSensorModal
                     open={isDesactivateModalOpen}

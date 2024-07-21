@@ -14,6 +14,7 @@ interface EditPersonModalProps {
     handleClose: () => void;
     person: Person | null;
     handleSave: (person: Person, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => Promise<void>;
+    formErrors2;
 }
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('campo requerido*'),
@@ -28,7 +29,7 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold' 
     },
 }));
-const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, person, handleSave }) => {
+const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, person, handleSave, formErrors2 }) => {
     const [rolesOptions, setRolesOptions] = useState([]);
     const classes = useStyles();
     let token = Cookies.get('token_person');
@@ -138,11 +139,11 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                                 fullWidth
                                 value={formData.email || ''}
                                 onChange={handleChange}
-                                error={!!errors.email}
+                                error={!!formErrors2.email} // Utilizar formErrors.ip para mostrar el error
                             />
-                            {errors.email && (
+                            {formErrors2.email && (
                                 <div className={classes.errorText}>
-                                    {errors.email}
+                                    {formErrors2.email}
                                 </div>
                             )}
                         </Grid>
