@@ -6,7 +6,5 @@ export interface Sensor {
     status: string;
     latitude: double;
     longitude: double;
-    type_sensor: {
-        name: string;
-    };
+    type_sensor: string;
 }

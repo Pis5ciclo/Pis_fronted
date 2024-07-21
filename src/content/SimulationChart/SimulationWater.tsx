@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import { useEffect, useState } from 'react';
-
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Chart } from 'src/components/Chart';
 import Text from 'src/components/Text';
@@ -171,13 +170,13 @@ function SimulationWater() {
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                            label="Start Date"
+                            label="Fecha inicio"
                             value={startDate}
                             onChange={newValue => setStartDate(newValue)}
                             renderInput={(params) => <TextField {...params} sx={{ mr: 2 }} />}
                         />
                         <DatePicker
-                            label="End Date"
+                            label="Fecha fin"
                             value={endDate}
                             onChange={newValue => setEndDate(newValue)}
                             renderInput={(params) => <TextField {...params} sx={{ mr: 2 }} />}
