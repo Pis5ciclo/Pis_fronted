@@ -1,36 +1,17 @@
-import { Container, Grid, styled } from '@mui/material';
+import Login from '@/components/sessions/Login';
+import { NextPage } from 'next';
+import React from 'react';
+import { UserProvider } from '@/content/Dashboards/Crypto/UserContext';
+const LoginPage: NextPage = () => {
+    return (
+        <div className="flex justify-center mb-20 mt-20">
+            <div className="grid items-start md:w-3/5 lg:w-1/3 w-full md:rounded-lg md:p-8 md:shadow-[0_1px_5px_2px_rgba(0,0,0,0.3)]">
+                <UserProvider>
+                    <Login />
+                </UserProvider>
+            </div>
+        </div>
+    );
+};
 
-import Footer from '@/components/Footer';
-import Head from 'next/head';
-import PageTitleWrapper from '@/components/PageTitleWrapper';
-import PageWelcomeUser from '@/content/Dashboards/Crypto/PageWelcomeUser';
-import PrincipalLayout from '@/layouts/PrincipalLayout';
-
-function DashboardCrypto() {
-  return (
-    <>
-      <Head>
-        <title>Monitoreo de agua y aire</title>
-      </Head>
-      <PageTitleWrapper>
-        {/* <PageWelcomeUser userName={userName} /> */}
-      </PageTitleWrapper>
-      <Container maxWidth="lg" >
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          spacing={4}
-          style={{ marginRight: '300vh' }}
-        >
-        </Grid>
-      </Container>
-      <Footer />
-    </>
-  );
-}
-
-DashboardCrypto.getLayout = (page) => <PrincipalLayout>{page}</PrincipalLayout>;
-
-export default DashboardCrypto;
+export default LoginPage;

@@ -16,6 +16,7 @@ function ApplicationsTransactions() {
     const router = useRouter();
     const [sensor, setSensor] = useState<Sensor[]>([]);
     const { name } = router.query;
+    let token = Cookies.get('token_person');
     const [userName, setUserName] = useState('');
     useEffect(() => {
         const storedName = Cookies.get('user');
@@ -27,7 +28,7 @@ function ApplicationsTransactions() {
         }
     }, [name]);
     const fetchSensors = async () => {
-        const sensors = await api.listSensor();
+        const sensors = await api.listSensor(token);
         setSensor(sensors);
     };
     useEffect(() => {

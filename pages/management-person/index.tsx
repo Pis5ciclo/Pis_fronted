@@ -17,6 +17,7 @@ function ApplicationsTransactions() {
     const [person, setPerson] = useState<Person[]>([]);
     const router = useRouter();
     const { name } = router.query;
+    let token = Cookies.get('token_person');
     const [userName, setUserName] = useState('');
     useEffect(() => {
         const storedName = Cookies.get('user');
@@ -28,7 +29,7 @@ function ApplicationsTransactions() {
         }
     }, [name]);
     const fetchPersons = async () => {
-        const persons = await api.listPerson();
+        const persons = await api.listPerson(token);
         setPerson(persons);
     };
 

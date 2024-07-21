@@ -15,6 +15,7 @@ import {
   Typography,
   useTheme
 } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 import DesactivateSensorModal from '@/components/modals/modal-sensor/DesactivateSensorModal';
@@ -24,7 +25,6 @@ import { LockSharp } from '@mui/icons-material';
 import { Sensor } from '@/models/sensor';
 import api from '@/utils/api/api';
 import { makeStyles } from '@mui/styles';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 interface ContentTableSensorProps {
@@ -102,6 +102,18 @@ const ContentTableSensor: React.FC<ContentTableSensorProps> = ({ sensor, setSens
       setAlert({ message: 'Error al actualizar el estado', severity: 'error', open: true });
     }
   };
+  const [typesOptions, setTypesOptions] = useState<{ name: string }[]>([]);
+  useEffect(() => {
+    const fetchTypes = async () => {
+      try {
+        const response = await api.types(token); // Asegúrate de ajustar la llamada a tu API
+        setTypesOptions(response);
+      } catch (error) {
+        console.error('Error fetching types:', error);
+      }
+    };
+    fetchTypes();
+  }, []);
   //Modal EditSensor
   const handleEditClick = (selectedSensor: Sensor) => {
     setEditSensorData(selectedSensor);

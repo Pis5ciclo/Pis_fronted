@@ -66,7 +66,7 @@ function PageHeader({ onAddSensor, userName }) {
     });
     const router = useRouter();
 
-    let token = Cookies.get('token');
+    let token = Cookies.get('token_person');
 
     const handleOpen = () => setOpen(true);
 
