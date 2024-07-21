@@ -1,14 +1,13 @@
 import {
   Box,
   Card,
-  Checkbox,
+  Radio,
   FormControl,
   FormControlLabel,
   Grid,
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-
 import SimulationAir1 from '@/content/SimulationChart/SimulationAir1';
 import SimulationAir2 from '@/content/SimulationChart/SimulationAir2';
 import SimulationWater from '@/content/SimulationChart/SimulationWater';
@@ -26,7 +25,6 @@ function AccountBalance() {
         setSelectedSensor(names[0].id);
       }
     };
-
     fetchSensorNames();
   }, []);
   const handleCheckboxChange = (event, sensorId) => {
@@ -45,7 +43,7 @@ function AccountBalance() {
               }}
               variant="h4"
             >
-              Account Balance
+              Simulación de datos
             </Typography>
               <Box
                 p={2}
@@ -74,7 +72,7 @@ function AccountBalance() {
                   {sensorNames.map((sensor, index) => (
                     <FormControlLabel
                       key={index}
-                      control={<Checkbox color='success' checked={selectedSensor === sensor.id} />}
+                      control={<Radio color='success' checked={selectedSensor === sensor.id} />}
                       label={sensor.name}
                       onChange={(event) => handleCheckboxChange(event, sensor.id)}
                     />

@@ -12,10 +12,13 @@ interface TablePersonProps {
 const TablePerson: React.FC<TablePersonProps> = ({ person, setPerson }) => {
   useEffect(() => {
       const fetchPersons = async () => {
+        try {
           const persons = await api.listPerson();
           setPerson(persons);
+        } catch (error) {
+          console.error('Error fetching roles:', error);
+        }
       };
-
       fetchPersons();
   }, [setPerson]);
 

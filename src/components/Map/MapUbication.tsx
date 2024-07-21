@@ -13,7 +13,7 @@ const MapUbication = ({ setCoordinates }) => {
     useEffect(() => {
         if (!mapRef.current) return;
 
-        const map = L.map(mapRef.current).setView([51.505, -0.09], 13);
+        const map = L.map(mapRef.current).setView([-3.994749, -79.204558], 13);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
