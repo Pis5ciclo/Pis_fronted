@@ -4,6 +4,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl,
 import React, { useEffect, useState } from 'react';
 
 import AlertMessage from '@/utils/api/utilities/Alert';
+import Cookies from 'js-cookie';
 import { Person } from '@/models/person';
 import Validation from '@/utils/api/utilities/Validation';
 import api from '@/utils/api/api';
@@ -30,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, handleSavePerson }) => {
+    let token = Cookies.get('token_person');
     const [rolesOptions, setRolesOptions] = useState([]);
     const classes = useStyles();
     const [formData, setFormData] = useState<Person>({
@@ -55,7 +57,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await api.roles();
+                const response = await api.roles(token);
                 setRolesOptions(response);
             } catch (error) {
                 console.error('Error fetching roles:', error);

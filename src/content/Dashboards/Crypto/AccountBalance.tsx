@@ -1,13 +1,15 @@
 import {
   Box,
   Card,
-  Radio,
   FormControl,
   FormControlLabel,
   Grid,
+  Radio,
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
+
+import Cookies from 'js-cookie';
 import SimulationAir1 from '@/content/SimulationChart/SimulationAir1';
 import SimulationAir2 from '@/content/SimulationChart/SimulationAir2';
 import SimulationWater from '@/content/SimulationChart/SimulationWater';
@@ -15,11 +17,12 @@ import api from '@/utils/api/api';
 
 function AccountBalance() {
   const [sensorNames, setSensorNames] = useState([]);
+  let token = Cookies.get('token_person');
   const [selectedSensor, setSelectedSensor] = useState();
 
   useEffect(() => {
     const fetchSensorNames = async () => {
-      const names = await api.listSensorName();
+      const names = await api.listSensorName(token);
       setSensorNames(names);
       if (names.length > 0) {
         setSelectedSensor(names[0].id);

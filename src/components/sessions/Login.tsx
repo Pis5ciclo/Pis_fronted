@@ -21,9 +21,6 @@ import api from '@/utils/api/api';
 import { renderMessage } from '@/utils/api/utilities/formErrors';
 import { useRouter } from 'next/router';
 
-interface Errors {
-  password?: string;
-}
 const schema = yup.object().shape({
   password: yup
     .string()
