@@ -59,6 +59,9 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   const [desactivatePersonData, setDesactivatePersonData] = useState<Person | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPersons, setFilteredPersons] = useState<Person[]>([]);
+  const [formErrors, setFormErrors] = useState({
+    email: '',
+  });
   const router = useRouter();
 
   const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error'; open: boolean }>({
@@ -110,6 +113,9 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
     setModalOpen(true);
   };
   const handleSave = async (updatedPerson: Person, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => {
+    setFormErrors({
+      email: '', 
+    });
     try {
       await api.updateUser(updatedPerson, updatedPerson.external_id, token);
       setPerson((prevPerson) =>
@@ -121,7 +127,21 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
       }, 1000);
     } catch (error) {
       console.error('Error al modificar el usuario:', error.message);
-      setAlert({ message: error.message, severity: 'error', open: true });
+      if (error.response && error.response.data && error.response.data.error === 'El correo electrónico ya está registrado') {
+        setFormErrors(prevState => ({
+          ...prevState,
+          email: 'El correo electrónico ya está registrado',
+        }));
+        setTimeout(() => {
+          setFormErrors(prevState => ({
+            ...prevState,
+            email: '',
+          }));
+        }, 3000);
+      } else {
+        router.push('/status/500');
+        setAlert({ message: 'Error del servidor', severity: 'error', open: true });
+      }
     }
   };
 
@@ -276,6 +296,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
                     handleClose={() => setModalOpen(false)}
                     person={editPersonData}
                     handleSave={handleSave}
+                    formErrors2={formErrors}
                   />
                   <DesactivatePersonModal
                     open={isDesactivateModalOpen}

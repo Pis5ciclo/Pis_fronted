@@ -15,8 +15,17 @@ interface EditSensorModalProps {
     handleClose: () => void;
     sensor: Sensor | null;
     handleSave: (sensor: Sensor, setAlert: React.Dispatch<React.SetStateAction<{ message: string; severity: 'success' | 'error'; open: boolean }>>) => Promise<void>;
+    formErrors2;
 }
-
+interface FormValues {
+    external_id: string;
+    name: string;
+    type_sensor: string;
+    latitude: number;
+    longitude: number;
+    ip: string;
+    status: string;
+}
 const schema = Yup.object().shape({
     name: Yup.string().required('Campo requerido*'),
     type_sensor: Yup.string().required('Campo requerido*'),
@@ -37,20 +46,20 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold'
     },
 }));
-const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, sensor, handleSave }) => {
+const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, sensor, handleSave, formErrors2 }) => {
     const [typesOptions, setTypesOptions] = useState([]);
     const classes = useStyles();
     let token = Cookies.get('token_person');
     const [formData, setFormData] = useState<Sensor>({
         external_id: '',
         name: '',
-        type_sensor: '',
+        type_sensor: { name: '' },
         latitude: 0,
         longitude: 0,
         ip: '',
         status: '',
     });
-    const [formErrors, setFormErrors] = useState<Sensor>({
+    const [formErrors, setFormErrors] = useState<FormValues>({
         external_id: '',
         name: '',
         type_sensor: '',
@@ -74,7 +83,7 @@ const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, se
                 const response = await api.types(token);
                 setTypesOptions(response);
             } catch (error) {
-                console.error('Error fetching roles:', error);
+                console.error('Error fetching types:', error);
             }
         };
         fetchSensors();
@@ -104,7 +113,6 @@ const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, se
         if (isValid) {
             await handleSave(formData, setAlert);
         }
-
     };
     const setCoordinates = React.useCallback(({ lat, lng }) => {
         setFormData((prevFormData) => ({
@@ -145,9 +153,9 @@ const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, se
                                 <Select
                                     labelId="type-label"
                                     name="type_sensor"
-                                    value={formData.type_sensor || ''}
+                                    value={formData.type_sensor}
                                     onChange={(event) => handleChange(event as React.ChangeEvent<{ name?: string; value: unknown }>)}
-                                    error={!!formErrors.type_sensor}
+                                    error={!!formErrors.type_sensor} 
                                 >
                                         <MenuItem value = {"AGUA"} >Agua</MenuItem>
                                         <MenuItem value = {"AIRE"} >Aire</MenuItem>
@@ -201,15 +209,18 @@ const EditSensorModal: React.FC<EditSensorModalProps> = ({ open, handleClose, se
                                 fullWidth
                                 value={formData.ip}
                                 onChange={handleChange}
-                                error={!!errors.ip}
+                                error={!!formErrors2.ip || !!errors.ip} // Utilizar formErrors.ip para mostrar el error
                             />
+                            {formErrors2.ip && (
+                                <div className={classes.errorText}>
+                                    {formErrors2.ip}
+                                </div>
+                            )}
                             {errors.ip && (
                                 <div className={classes.errorText}>
                                     {errors.ip}
                                 </div>
                             )}
-
-
                         </Grid>
                     </Grid>
                     <AlertMessage alert={alert} />
