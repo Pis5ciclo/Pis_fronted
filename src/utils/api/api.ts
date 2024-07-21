@@ -26,32 +26,55 @@ const listSensor = async (token = "NONE") => {
         const response = await axios.get(`${apiUrl}/list_sensor`, { headers });
         return Array.isArray(response.data.data) ? response.data.data : [];
     } catch (error) {
-        if (error.response && error.response.status === 401) {
-            window.location.href = '/404'; 
-        }
+        if (error.response) {
+            if (error.response.status === 401) {
+              window.location.href = '/404'; // Redirige a /404 si es un error de autorización
+            } else {
+              window.location.href = '/status/500'; // Redirige a /status/500 para otros errores
+            }
+          } else {
+            console.error('Error de red o del servidor:', error.message);
+            window.location.href = '/status/500'; // También redirige a /status/500 para errores sin respuesta de servidor
+          }
+          return []; // Devuelve un array vacío en caso de error para manejarlo en el componente
     }
 };
-const listDataSensor  = async (token = "NONE") => {
+const listDataSensor = async (token = 'NONE') => {
     const headers = createHeaders(token);
-    try{
-        const response = await axios.get(`${apiUrl}/data/sensor`, { headers });
-        return Array.isArray(response.data.data) ? response.data.data: [];
+    try {
+      const response = await axios.get(`${apiUrl}/data/sensor`, { headers });
+      return Array.isArray(response.data.data) ? response.data.data : [];
     } catch (error) {
-        if (error.response && error.response.status == 401) {
-            window.location.href = '/404';
+      if (error.response) {
+        if (error.response.status === 401) {
+          window.location.href = '/404'; // Redirige a /404 si es un error de autorización
+        } else {
+          window.location.href = '/status/500'; // Redirige a /status/500 para otros errores
         }
+      } else {
+        console.error('Error de red o del servidor:', error.message);
+        window.location.href = '/status/500'; // También redirige a /status/500 para errores sin respuesta de servidor
+      }
+      return []; // Devuelve un array vacío en caso de error para manejarlo en el componente
     }
-
-};
+  };
 const listSensorName = async (token = "NONE") => {
     const headers = createHeaders(token);
     try {
         const response = await axios.get(`${apiUrl}/sensor/list_sensor_name`, { headers });
         return Array.isArray(response.data.data) ? response.data.data : [];
     } catch (error) {
-        if (error.response && error.response.status === 401) {
-            window.location.href = '/404'; 
-        }
+        if (error.response) {
+            if (error.response.status === 401) {
+              window.location.href = '/404'; // Redirige a /404 si es un error de autorización
+            } else {
+              window.location.href = '/status/500'; // Redirige a /status/500 para otros errores
+            }
+          } else {
+            console.error('Error de red o del servidor:', error.message);
+            window.location.href = '/status/500'; // También redirige a /status/500 para errores sin respuesta de servidor
+          }
+          return []; // Devuelve un array vacío en caso de error para manejarlo en el componente
     }
 };
 
@@ -61,9 +84,17 @@ const listPerson = async (token = "NONE") => {
         const response = await axios.get(`${apiUrl}/person/account`, { headers });
         return Array.isArray(response.data.data) ? response.data.data : [];
     } catch (error) {
-        if (error.response && error.response.status === 401) {
-            window.location.href = '/404'; 
-        }
+        if (error.response) {
+            if (error.response.status === 401) {
+              window.location.href = '/404'; // Redirige a /404 si es un error de autorización
+            } else {
+              window.location.href = '/status/500'; // Redirige a /status/500 para otros errores
+            }
+          } else {
+            console.error('Error de red o del servidor:', error.message);
+            window.location.href = '/status/500'; // También redirige a /status/500 para errores sin respuesta de servidor
+          }
+          return []; // Devuelve un array vacío en caso de error para manejarlo en el componente
     }
 };
 

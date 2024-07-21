@@ -110,6 +110,7 @@ export default function Login() {
       if (error.response && error.response.data && error.response.data.error) {
         setLoginError(error.response.data.error);
       } else {
+        router.push('/status/500');
         setLoginError('Error desconocido. Por favor, inténtelo de nuevo.');
       }
     }
@@ -187,7 +188,7 @@ export default function Login() {
               />
             </Avatar>
             <Typography component="h1" variant="h3" fontFamily="Helvetica">
-              INICIO DE SESION
+              INICIO DE SESIÓN
             </Typography>
             <Box sx={{ mt: 1 }}>
               <form onSubmit={handleSubmit}>
@@ -196,7 +197,7 @@ export default function Login() {
                   required
                   fullWidth
                   id="email"
-                  label="Corre electronico"
+                  label="Correo electrónico"
                   name="email"
                   autoComplete="email"
                   autoFocus
@@ -209,7 +210,7 @@ export default function Login() {
                   required
                   fullWidth
                   id="password"
-                  label="Contrasena"
+                  label="Contraseña"
                   name="password"
                   autoComplete="current-password"
                   type={showPassword ? 'text' : 'password'}

@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import api from '@/utils/api/api';
 import { makeStyles } from '@mui/styles';
 
+
 interface AlertState {
     message: string;
     severity: 'success' | 'error';
@@ -138,6 +139,10 @@ function PageHeader({ onAddPerson, userName }) {
                 [name]: '',
             }));
         }
+    };
+    const user = {
+        name: userName,
+        avatar: '/static/images/avatars/1.jpg'
     };
 
     return (

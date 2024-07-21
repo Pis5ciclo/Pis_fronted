@@ -128,7 +128,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                                 autoFocus
                                 margin="dense"
                                 name="phone"
-                                label="Telefono"
+                                label="Teléfono"
                                 type="number"
                                 fullWidth
                                 value={formData.phone}
@@ -145,7 +145,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                             <TextField
                                 margin="dense"
                                 name="identification"
-                                label="Identificacion"
+                                label="Identificación"
                                 type="number"
                                 fullWidth
                                 value={formData.identification}
@@ -162,7 +162,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                             <TextField
                                 margin="dense"
                                 name="email"
-                                label="Correo electronico"
+                                label="Correo electrónico"
                                 type="text"
                                 fullWidth
                                 value={formData.email}
@@ -179,7 +179,7 @@ const AddPersonModal: React.FC<AddPersonModalProps> = ({ open, handleClose, hand
                             <TextField
                                 margin="dense"
                                 name="password"
-                                label="Contrasena"
+                                label="Contraseña"
                                 type="password"
                                 fullWidth
                                 value={formData.password}

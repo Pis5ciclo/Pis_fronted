@@ -27,6 +27,7 @@ import { Person } from '@/models/person';
 import Text from '@/components/Text';
 import api from '@/utils/api/api';
 import { makeStyles } from '@mui/styles';
+import { useRouter } from 'next/router';
 
 interface ContentTablePersonProps {
   person: Person[];
@@ -58,6 +59,7 @@ const ContentTablePerson: React.FC<ContentTablePersonProps> = ({ person, setPers
   const [desactivatePersonData, setDesactivatePersonData] = useState<Person | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredPersons, setFilteredPersons] = useState<Person[]>([]);
+  const router = useRouter();
 
   const [alert, setAlert] = useState<{ message: string; severity: 'success' | 'error'; open: boolean }>({
     message: '',

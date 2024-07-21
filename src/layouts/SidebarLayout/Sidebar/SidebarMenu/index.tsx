@@ -184,7 +184,7 @@ function SidebarMenu() {
                 variant='contained'
                 startIcon={<DataThresholdingIcon />}
               >
-                Simulacion de datos
+                Simulación de datos
               </Button>
             </NextLink>
           </ListItem>
@@ -210,7 +210,7 @@ function SidebarMenu() {
                     onClick={closeSidebar}
                     startIcon={<AssignmentInd />}
                   >
-                    Gestion de usuarios
+                    Gestión de usuarios
                   </Button>
                 </NextLink>
               </ListItem>
@@ -225,7 +225,7 @@ function SidebarMenu() {
                     onClick={closeSidebar}
                     startIcon={<Sensors />}
                   >
-                    Gestion Sensores
+                    Gestión de Sensores
                   </Button>
                 </NextLink>
               </ListItem>

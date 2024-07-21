@@ -133,7 +133,7 @@ const EditPersonModal: React.FC<EditPersonModalProps> = ({ open, handleClose, pe
                             <TextField
                                 margin="dense"
                                 name="email"
-                                label="Correo electronico"
+                                label="Correo electrónico"
                                 type="text"
                                 fullWidth
                                 value={formData.email || ''}

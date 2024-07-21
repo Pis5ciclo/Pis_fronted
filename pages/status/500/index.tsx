@@ -40,7 +40,8 @@ function Status500() {
   return (
     <>
       <Head>
-        <title>Status - 500</title>
+        <link rel="icon" href="/image/logo-unl.png" />
+        <title>Error del Servidor</title>
       </Head>
       <MainContent>
         <TopWrapper>

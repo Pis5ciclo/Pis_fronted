@@ -8,6 +8,7 @@ import AlertMessage from '@/utils/api/utilities/Alert';
 import Cookies from 'js-cookie';
 import MapUbication from '@/components/Map/MapUbication';
 import api from '@/utils/api/api';
+import { useRouter } from 'next/router';
 
 interface AlertState {
     message: string;
@@ -49,7 +50,7 @@ const initialFormData: FormValues = {
 };
 
 
-function PageHeader({ onAddSensor, userName}) {
+function PageHeader({ onAddSensor, userName }) {
     const [open, setOpen] = useState(false);
     const [typesOptions, setTypesOptions] = useState([]);
     const [alert, setAlert] = useState<AlertState>({ message: '', severity: 'success', open: false });
@@ -63,6 +64,7 @@ function PageHeader({ onAddSensor, userName}) {
         ip: '',
         status: '',
     });
+    const router = useRouter();
 
     let token = Cookies.get('token');
 
@@ -119,8 +121,8 @@ function PageHeader({ onAddSensor, userName}) {
                 });
                 setFormErrors(errors as FormValues);
             } else {
-                console.error('Error:', error.message);
-                setAlert({ message: 'Error al enviar el formulario', severity: 'error', open: true });
+                router.push('/status/500');
+                setAlert({ message: 'Error del servidor', severity: 'error', open: true });
             }
         }
     };
@@ -287,7 +289,7 @@ function PageHeader({ onAddSensor, userName}) {
                                 <Button onClick={handleClose} sx={{ color: 'red', border: '1px solid red' }}>
                                     Cancelar
                                 </Button>
-                                <Button type="submit" color="primary" sx={{ border: '1px solid blue' }}> 
+                                <Button type="submit" color="primary" sx={{ border: '1px solid blue' }}>
                                     Registrar
                                 </Button>
                             </DialogActions>

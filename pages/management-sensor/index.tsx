@@ -41,7 +41,7 @@ function ApplicationsTransactions() {
         <>
             <Head>
                 <link rel="icon" href="/image/logo-unl.png" />
-                <title>Gestion sensores</title>
+                <title>Gestión sensores</title>
             </Head>
             <PageTitleWrapper>
                 <PageHeader onAddSensor={handleAddSensor} userName={userName} />
