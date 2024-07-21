@@ -185,13 +185,13 @@ function SimulationAir2() {
                 <Box display="flex" alignItems="center" justifyContent="center">
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DatePicker
-                            label="Fecha inicio"
+                            label="Start Date"
                             value={startDate}
                             onChange={newValue => setStartDate(newValue)}
                             renderInput={(params) => <TextField {...params} sx={{ mr: 2 }} />}
                         />
                         <DatePicker
-                            label="Fecha fin"
+                            label="End Date"
                             value={endDate}
                             onChange={newValue => setEndDate(newValue)}
                             renderInput={(params) => <TextField {...params} sx={{ mr: 2 }} />}
